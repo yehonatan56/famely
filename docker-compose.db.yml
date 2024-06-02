@@ -1,0 +1,25 @@
+version: '3.9'
+
+volumes:
+    docker-data: {}
+
+networks:
+    app-network:
+        driver: bridge
+
+services:
+    mongo:
+        image: mongo
+        container_name: db-mongo
+        restart: always
+        command: mongod
+        environment:
+#            - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER:-admin}
+#            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD:-admin}
+            - MONGO_INITDB_DATABASE=${MONGO_DB:-my-db}
+        volumes:
+            - './docker-data/mongodb:/data/db'
+        ports:
+            - ${MONGO_PORT:-27019}:27017
+        networks:
+            - app-network
