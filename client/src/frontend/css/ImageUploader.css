@@ -1,0 +1,46 @@
+/* General styling for popup */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    width: 300px;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .popup form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup label {
+    margin-bottom: 10px;
+  }
+  
+  .popup input {
+    padding: 5px;
+    margin-top: 5px;
+  }
+  
+  .popup button {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .popup button[type="button"] {
+    background-color: gray;
+  }
+  
+  .popup button:hover {
+    opacity: 0.9;
+  }
+  
