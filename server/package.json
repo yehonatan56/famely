@@ -8,14 +8,14 @@
   "typings": "dist/index.d.ts",
   "license": "ISC",
   "scripts": {
-    "start:watch": "cross-env NODE_ENV=local nodemon src/server.ts",
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "test": "jest  --runInBand --detectOpenHandles --forceExit",
+    "start:watch": "../node_modules/.bin/cross-env NODE_ENV=local nodemon src/server.ts",
+    "build": "../node_modules/.bin/tsc",
+    "build:watch": "../node_modules/.bin/tsc --watch",
+    "test": "../node_modules/.bin/jest  --runInBand --detectOpenHandles --forceExit",
     "=== DOCKER ==================================================================================================": "",
     "docker:stop": "docker-compose -f docker-compose.db.yml down",
     "docker:start": "docker-compose -f docker-compose.db.yml down && docker-compose -f docker-compose.db.yml --env-file ./.env.local up -d --build",
-    "docker:clear-volume": "del-cli --force ./docker-data"
+    "docker:clear-volume": "../node_modules/.bin/del-cli --force ./docker-data"
   },
   "dependencies": {
     "@types/mongoose": "^5.11.97",
