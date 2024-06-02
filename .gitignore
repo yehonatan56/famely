@@ -1,0 +1,10 @@
+**/node_modules/**
+**/dist/**
+docker-data/**
+.env.dev*
+.env.prod*
+.idea
+logs
+**/package-lock.json
+**/coverage
+
