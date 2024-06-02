@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getFromStore } from './store';
+import { getFromStore } from '../../logic/store';
 import { useNavigate } from 'react-router-dom';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 

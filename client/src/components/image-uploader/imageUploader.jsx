@@ -1,13 +1,11 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import './css/ImageUploader.css'; // Assume we have a dedicated CSS file for styles
-import Image from './image';
-import { initImages } from './initImages';
-import ResponsivePagination from 'react-responsive-pagination';
-import 'react-responsive-pagination/themes/classic.css';
-import { getFromStore } from './store';
-import { useNavigate } from 'react-router-dom';
-
-
+import React, { useState, useCallback, useEffect, useMemo } from "react";
+import "./ImageUploader.css"; // Assume we have a dedicated CSS file for styles
+import Image from "./image";
+import { initImages } from "../../logic/initImages";
+import ResponsivePagination from "react-responsive-pagination";
+import "react-responsive-pagination/themes/classic.css";
+import { getFromStore } from "../../logic/store";
+import { useNavigate } from "react-router-dom";
 
 const ImageUploaderUnsafe = () => {
   const [draggingIndex, setDraggingIndex] = useState(null);
@@ -15,14 +13,20 @@ const ImageUploaderUnsafe = () => {
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [sizeOffset, setSizeOffset] = useState({ width: 0, height: 0 });
   const [showPopup, setShowPopup] = useState(false);
-  const [formDetails, setFormDetails] = useState({ name: '', description: '', birthdate: '', });
+  const [formDetails, setFormDetails] = useState({
+    name: "",
+    description: "",
+    birthdate: "",
+  });
   const [editingIndex, setEditingIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(10);
   const user = getFromStore("user");
-  const [images, setImages] = useState(user ? initImages(user, currentPage) : "");
+  const [images, setImages] = useState(
+    user ? initImages(user, currentPage) : ""
+  );
 
-  console.log({user})
+  console.log({ user });
 
   // 2. יש בקומפוננטה הזאת כמות גדולה של ניהול סטייט מכמה סוגים וזה דורש גישה קצת יותר משוכללת ו/או מודולרית לניהול הסטייט
   // כן
@@ -32,22 +36,33 @@ const ImageUploaderUnsafe = () => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     try {
-      const response = await fetch('http://localhost:3009/upload', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3009/upload", {
+        method: "POST",
         body: formData,
       });
       const data = await response.json();
       setEditingIndex(images.length);
-      setImages([...images, {
-        url: data.url,
-        metadata: { top: 50, left: 50, width: 100, height: 100, name: '', description: '', birthdate: '' },
-      }]);
+      setImages([
+        ...images,
+        {
+          url: data.url,
+          metadata: {
+            top: 50,
+            left: 50,
+            width: 100,
+            height: 100,
+            name: "",
+            description: "",
+            birthdate: "",
+          },
+        },
+      ]);
       setShowPopup(true); // Show the popup after upload
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error("Error uploading image:", error);
     }
   };
 
@@ -73,21 +88,28 @@ const ImageUploaderUnsafe = () => {
   };
 
   // Function to update image position during a drag
-  const handleMouseMove = useCallback((event) => {
-    if (draggingIndex !== null) {
-      const updatedImages = [...images];
-      updatedImages[draggingIndex].metadata.left = event.clientX - dragOffset.x;
-      updatedImages[draggingIndex].metadata.top = event.clientY - dragOffset.y;
-      setImages(updatedImages);
-    }
+  const handleMouseMove = useCallback(
+    (event) => {
+      if (draggingIndex !== null) {
+        const updatedImages = [...images];
+        updatedImages[draggingIndex].metadata.left =
+          event.clientX - dragOffset.x;
+        updatedImages[draggingIndex].metadata.top =
+          event.clientY - dragOffset.y;
+        setImages(updatedImages);
+      }
 
-    if (resizingIndex !== null) {
-      const updatedImages = [...images];
-      updatedImages[resizingIndex].metadata.width = event.clientX - sizeOffset.width;
-      updatedImages[resizingIndex].metadata.height = event.clientY - sizeOffset.height;
-      setImages(updatedImages);
-    }
-  }, [draggingIndex, resizingIndex, dragOffset, sizeOffset, images]);
+      if (resizingIndex !== null) {
+        const updatedImages = [...images];
+        updatedImages[resizingIndex].metadata.width =
+          event.clientX - sizeOffset.width;
+        updatedImages[resizingIndex].metadata.height =
+          event.clientY - sizeOffset.height;
+        setImages(updatedImages);
+      }
+    },
+    [draggingIndex, resizingIndex, dragOffset, sizeOffset, images]
+  );
 
   // Function to end the drag and resize operation
   const handleMouseUp = () => {
@@ -97,18 +119,17 @@ const ImageUploaderUnsafe = () => {
 
   // Attach global mouse listeners
   useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [handleMouseMove]);
 
   // Function to save changes to the server via a PUT request
   const saveChangesToServer = async () => {
-
-    const updatedData = images.map(img => ({
+    const updatedData = images.map((img) => ({
       url: img.url,
       top: img.metadata.top,
       left: img.metadata.left,
@@ -121,15 +142,18 @@ const ImageUploaderUnsafe = () => {
     }));
     user.famely.images = updatedData;
     try {
-      const response = await fetch(`http://localhost:3009/famelys/${props.user._id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-      });
+      const response = await fetch(
+        `http://localhost:3009/famelys/${props.user._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(user),
+        }
+      );
       const result = await response.json();
-      console.log('Save result:', result);
+      console.log("Save result:", result);
     } catch (error) {
-      console.error('Error saving data:', error);
+      console.error("Error saving data:", error);
     }
   };
 
@@ -159,10 +183,8 @@ const ImageUploaderUnsafe = () => {
   };
 
   const onPageChange = React.useCallback((page) => {
-    setCurrentPage(page)
-
+    setCurrentPage(page);
   }, []);
-
 
   // הערות כלליות
   // 1. כדאי שתתחיל לכתוב typescript זה ישדרג את האיכות של העבודה שלך ואת הביטחון שלך במהלך העבודה
@@ -170,48 +192,80 @@ const ImageUploaderUnsafe = () => {
   // כן
   return (
     <div>
-      <ResponsivePagination current={currentPage} total={totalPages} onPageChange={onPageChange} />
+      <ResponsivePagination
+        current={currentPage}
+        total={totalPages}
+        onPageChange={onPageChange}
+      />
       <input type="file" onChange={handleFileUpload} accept="image/*" />
       {images.map((img, index) => {
-        if (img.metadata.page == currentPage) return <Image img={img} index={index} handleMouseDown={handleMouseDown} handleImageClick={handleImageClick} handleResizeStart={handleResizeStart} />
+        if (img.metadata.page == currentPage)
+          return (
+            <Image
+              img={img}
+              index={index}
+              handleMouseDown={handleMouseDown}
+              handleImageClick={handleImageClick}
+              handleResizeStart={handleResizeStart}
+            />
+          );
       })}
       <button onClick={saveChangesToServer}>Save Changes</button>
 
       {showPopup && (
         <div className="popup">
           <form onSubmit={handleFormSubmit}>
-            <label>Name:
-              <input type="text" name="name" value={formDetails.name} onChange={handleFormChange} />
+            <label>
+              Name:
+              <input
+                type="text"
+                name="name"
+                value={formDetails.name}
+                onChange={handleFormChange}
+              />
             </label>
-            <label>Description:
-              <input type="text" name="description" value={formDetails.description} onChange={handleFormChange} />
+            <label>
+              Description:
+              <input
+                type="text"
+                name="description"
+                value={formDetails.description}
+                onChange={handleFormChange}
+              />
             </label>
-            <label>Birthdate:``
-              <input type="date" name="birthdate" value={formDetails.birthdate} onChange={handleFormChange} />
+            <label>
+              Birthdate:``
+              <input
+                type="date"
+                name="birthdate"
+                value={formDetails.birthdate}
+                onChange={handleFormChange}
+              />
             </label>
             <button type="submit">Save</button>
-            <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
+            <button type="button" onClick={() => setShowPopup(false)}>
+              Cancel
+            </button>
           </form>
         </div>
       )}
     </div>
   );
-}
-// אני יפריד 
+};
+// אני יפריד
 // האמת  הרוב AI
 
 const ImageUploader = (props) => {
-  const user = getFromStore("user")
-  const navigate = useNavigate()
+  const user = getFromStore("user");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) navigate("/")
-  })
+    if (!user) navigate("/");
+  });
 
-  if (!user) return null
+  if (!user) return null;
 
-  return ImageUploaderUnsafe(props)
-}
-
+  return ImageUploaderUnsafe(props);
+};
 
 export default ImageUploader;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { writeToStore } from './store';
+import { writeToStore } from '../../logic/store';
 import { useNavigate } from 'react-router-dom';
 
 function RegisterForm({ onRegistrationSuccess }) {

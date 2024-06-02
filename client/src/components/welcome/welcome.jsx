@@ -1,5 +1,5 @@
 import React from 'react'
-import { getFromStore } from './store'
+import { getFromStore } from '../../logic/store'
 
 export default function Welcome() {
     const name = getFromStore("user").name;

@@ -1,31 +1,19 @@
-import React, { useState } from 'react';
-import Chat from './frontend/chat';
-//import Calendar from './frontend/calendar';
-import { Route, Routes }from 'react-router-dom';
-import './App.css'
-import '@mantine/core/styles.css';
-import { MantineProvider } from '@mantine/core';
-import Navbar from './frontend/navbar';
-import Forms from './frontend/forms';
-import ImageUploader from './frontend/imageUploader';
-import Welcome from './frontend/welcome';
-function App() {
- 
+import React from "react";
+import { RoutePages } from "./pages";
+import "@mantine/core/styles.css";
 
-  return (  
-      <MantineProvider>
-        <Navbar />
-        <Routes>
-          <Route path='*' Component={Forms} />
-          <Route path='/chat' Component={Chat}/>
-          {/* <Route path='/calendar' Component={Calendar}/> */}
-          <Route path='/imageUploader' Component={ImageUploader}/>
-          <Route path='/welcome' Component={Welcome}/>
-        </Routes>
-      </MantineProvider>
+import { MantineProvider } from "@mantine/core";
+import Navbar from "./components/navbar/navbar";
+
+import "./App.css";
+
+function App() {
+  return (
+    <MantineProvider>
+      <Navbar />
+      <RoutePages />
+    </MantineProvider>
   );
 }
 
 export default App;
-
- 

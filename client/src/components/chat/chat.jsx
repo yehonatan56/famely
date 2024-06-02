@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
-import { getFromStore } from './store';
+import { getFromStore } from '../../logic/store';
 
 function Chat() {
   const [messages, setMessages] = useState([]);
