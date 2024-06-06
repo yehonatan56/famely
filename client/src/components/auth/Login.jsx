@@ -6,7 +6,7 @@ import { writeToStore } from "../../logic/store";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../requests/auth.proxy";
 
-function LoginForm({ onLoginSuccess }) {
+function LoginForm() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -22,8 +22,7 @@ function LoginForm({ onLoginSuccess }) {
     writeToStore("user", user);
     navigate("/welcome");
 
-    onLoginSuccess?.();
-  };
+    };
 
   return (
     <div className="form-container">

@@ -11,7 +11,7 @@ import Welcome from "../components/welcome/welcome";
 export const RoutePages = () => {
   return (
     <Routes>
-      <Route path="*" Component={<div>404</div>} />
+      {/* <Route path="*" Component={<div>404</div>} /> */}
       <Route path="/login" Component={LoginPage} />
       <Route path="/register" Component={RegisterPage} />
       {/*<Route path="/chat" Component={Chat} />*/}
