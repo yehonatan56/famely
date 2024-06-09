@@ -16,7 +16,7 @@ export const RoutePages = () => {
       <Route path="/register" Component={RegisterPage} />
       <Route path="/chat" Component={Chat} />
       {/* <Route path='/calendar' Component={Calendar}/> */}
-      <Route path="/imageUploader" Component={ImageUploader} />
+      <Route path="/image-uploader" Component={ImageUploader} />
       <Route path="/welcome" Component={Welcome} />
     </Routes>
   );

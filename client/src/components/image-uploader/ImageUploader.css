@@ -1,3 +1,27 @@
+.image-uploader-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: center;
+}
+
+.user-images-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-images{
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
 /* General styling for popup */
 .popup {
     position: fixed;
