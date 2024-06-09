@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
+import React, { useState } from 'react';
 import { withFormikDevtools } from "formik-devtools-extension";
-import validationSchema from "./Login.validation";
-import { writeToStore } from "../../logic/store";
-import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../requests/auth.proxy";
-
-function LoginForm() {
+import { writeToStore } from '../../../logic/store';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../../../requests/auth.proxy';
+import validationSchema from './Login.validation';
+import { Formik } from 'formik';
+function RegisterForm() {
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
-  const [errorMessage, setErrorMessage] = useState("");
-
   const handleSubmit = async (event, { name, password }) => {
     event?.preventDefault();
-    const user = await loginUser({ name, password });
-
+    const user = await registerUser({ name, password });
     if (!user) {
       setErrorMessage("Invalid username or password.");
       return;
@@ -21,8 +18,8 @@ function LoginForm() {
 
     writeToStore("user", user);
     navigate("/welcome");
+  }
 
-    };
 
   return (
     <div className="form-container">
@@ -32,7 +29,7 @@ function LoginForm() {
         onSubmit={(values, { setSubmitting }) => {
           return handleSubmit(null, values)
             .catch((error) =>
-              setErrorMessage("Failed to login. Please try again later.")
+              setErrorMessage("Failed to register. Please try again later.")
             )
             .finally(() => setSubmitting(false));
         }}
@@ -53,7 +50,7 @@ function LoginForm() {
 
           return (
             <form onSubmit={handleSubmit}>
-              <h2>Login</h2>
+              <h2>Register</h2>
 
               <div className="input-group">
                 <label htmlFor="name">Name</label>
@@ -85,14 +82,15 @@ function LoginForm() {
 
               {errorMessage && <p className="error">{errorMessage}</p>}
               <button type="submit" disabled={isSubmitting}>
-                Login
+                Register
               </button>
             </form>
           );
         }}
       </Formik>
     </div>
+
   );
 }
 
-export default LoginForm;
+export default RegisterForm;
