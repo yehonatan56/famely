@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ImageUploader from "../image-uploader/imageUploader"; // This would be your main UI component after login
+import ImageUploader from "../../image-uploader/imageUploader"; // This would be your main UI component after login
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 

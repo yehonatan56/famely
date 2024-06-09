@@ -21,7 +21,7 @@ export const registerUser = async ({ name, password: pass }) => {
     },
     body: JSON.stringify({ name, pass: pass, famely: { images: [] } })
   })
-    .then((response) => response.json())
+    // .then((response) => response.json())
     .catch((error) => {
       console.error("failed to login user with error", error);
       return null;
