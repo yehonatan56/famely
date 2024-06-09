@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { withFormikDevtools } from "formik-devtools-extension";
-import { writeToStore } from '../../../logic/store';
-import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../../../requests/auth.proxy';
-import validationSchema from './Login.validation';
-import { Formik } from 'formik';
+import { writeToStore } from "../../../logic/store";
+import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../../../requests/auth.proxy";
+import validationSchema from "./Login.validation";
+import { Formik } from "formik";
+import "./auth.css";
+
 function RegisterForm() {
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+
   const handleSubmit = async (event, { name, password }) => {
     event?.preventDefault();
+
     const user = await registerUser({ name, password });
     if (!user) {
-      setErrorMessage("Invalid username or password.");
-      return;
+      throw Error("user not registered");
     }
 
     writeToStore("user", user);
     navigate("/welcome");
-  }
-
+  };
 
   return (
     <div className="form-container">
@@ -28,9 +30,10 @@ function RegisterForm() {
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           return handleSubmit(null, values)
-            .catch((error) =>
-              setErrorMessage("Failed to register. Please try again later.")
-            )
+            .catch((error) => {
+              console.error(error);
+              setErrorMessage("Failed to register. Please try again later.");
+            })
             .finally(() => setSubmitting(false));
         }}
       >
@@ -50,7 +53,10 @@ function RegisterForm() {
 
           return (
             <form onSubmit={handleSubmit}>
-              <h2>Register</h2>
+              <div className="header-from">
+                <h2>Register</h2>
+                <Link to="/login">login</Link>
+              </div>
 
               <div className="input-group">
                 <label htmlFor="name">Name</label>
@@ -89,7 +95,6 @@ function RegisterForm() {
         }}
       </Formik>
     </div>
-
   );
 }
 

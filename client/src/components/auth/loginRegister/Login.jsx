@@ -20,8 +20,7 @@ function LoginForm() {
     }
     writeToStore("user", user);
     navigate("/welcome");
-
-    };
+  };
 
   return (
     <div className="form-container">
@@ -52,6 +51,7 @@ function LoginForm() {
 
           return (
             <form onSubmit={handleSubmit}>
+              {/* todo: add register link */}
               <h2>Login</h2>
 
               <div className="input-group">
