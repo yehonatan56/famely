@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Formik } from "formik";
 import { withFormikDevtools } from "formik-devtools-extension";
+import { Link, useNavigate } from "react-router-dom";
 import validationSchema from "./Login.validation";
 import { writeToStore } from "../../../logic/store";
-import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../requests/auth.proxy";
-
+import './auth.css'
 function LoginForm() {
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,7 +52,10 @@ function LoginForm() {
           return (
             <form onSubmit={handleSubmit}>
               {/* todo: add register link */}
+              <div className="header-form">
               <h2>Login</h2>
+              <Link to="/register">Register</Link>
+              </div>
 
               <div className="input-group">
                 <label htmlFor="name">Name</label>

@@ -53,7 +53,7 @@ function RegisterForm() {
 
           return (
             <form onSubmit={handleSubmit}>
-              <div className="header-from">
+              <div className="header-form">
                 <h2>Register</h2>
                 <Link to="/login">login</Link>
               </div>

@@ -49,15 +49,14 @@ export const useImageEvents = ({ images, updateImages }) => {
 
       if (resizingIndex !== null) {
         const updatedImages = [...images];
-
+        const width = event.clientX - sizeOffset.width
+        const height = event.clientY - sizeOffset.height;
         // todo : change to [width, height] variables
-        updatedImages[resizingIndex].metadata.width =
-          event.clientX - sizeOffset.width;
-        updatedImages[resizingIndex].metadata.height =
-          event.clientY - sizeOffset.height;
+        updatedImages[resizingIndex].metadata.width = width;
+        updatedImages[resizingIndex].metadata.height = height;
 
         // todo: add question dot checking before using
-        updateImages(updatedImages);
+        updateImages?.(updatedImages);
       }
     },
     [draggingIndex, resizingIndex, dragOffset, sizeOffset, images]
