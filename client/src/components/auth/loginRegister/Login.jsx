@@ -3,23 +3,34 @@ import { Formik } from "formik";
 import { withFormikDevtools } from "formik-devtools-extension";
 import { Link, useNavigate } from "react-router-dom";
 import validationSchema from "./Login.validation";
-import { writeToStore } from "../../../logic/store";
 import { loginUser } from "../../../requests/auth.proxy";
-import './auth.css'
+import './auth.css';
+import { useDispatch } from "react-redux";
+import { pushUser } from "../../../store/userSlice";
+
 function LoginForm() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = async (event, { name, password }) => {
-    event?.preventDefault();
-    const user = await loginUser({ name, password });
+  const handleSubmit = async (values, { setSubmitting }) => {
+    // check on meeting
+    const { name, password } = values;
+    try {
+      const user = await loginUser({ name, password });
 
-    if (!user._id) {
-      setErrorMessage("Invalid username or password.");
-      return;
+      if (!user._id) {
+        setErrorMessage("Invalid username or password.");
+        return;
+      }
+      dispatch(pushUser({ user })); // Pass the user object
+      navigate("/welcome");
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Failed to login. Please try again later.");
+    } finally {
+      setSubmitting(false);
     }
-    writeToStore("user", user);
-    navigate("/welcome");
   };
 
   return (
@@ -27,13 +38,7 @@ function LoginForm() {
       <Formik
         initialValues={{ name: "", password: "" }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
-          return handleSubmit(null, values)
-            .catch((error) =>
-              setErrorMessage("Failed to login. Please try again later.")
-            )
-            .finally(() => setSubmitting(false));
-        }}
+        onSubmit={handleSubmit}
       >
         {(formikProps) => {
           withFormikDevtools(formikProps);
@@ -46,15 +51,13 @@ function LoginForm() {
             handleBlur,
             handleSubmit,
             isSubmitting,
-            /* and other goodies */
           } = formikProps;
 
           return (
             <form onSubmit={handleSubmit}>
-              {/* todo: add register link */}
               <div className="header-form">
-              <h2>Login</h2>
-              <Link to="/register">Register</Link>
+                <h2>Login</h2>
+                <Link to="/register">Register</Link>
               </div>
 
               <div className="input-group">

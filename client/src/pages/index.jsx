@@ -7,11 +7,13 @@ import { RegisterPage } from "./RegisterPage";
 import Chat from "../components/chat/chat";
 import ImageUploader from "../components/image-uploader/imageUploader";
 import Welcome from "../components/welcome/welcome";
+import ErrorConnect from "./errorConnect";
 
 export const RoutePages = () => {
   return (
     <Routes>
       {/* <Route path="*" Component={<div>404</div>} /> */}
+      <Route path="/errorConnect" Component={ErrorConnect} />
       <Route path="/login" Component={LoginPage} />
       <Route path="/register" Component={RegisterPage} />
       <Route path="/chat" Component={Chat} />

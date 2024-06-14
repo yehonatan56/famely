@@ -9,7 +9,6 @@ export const loginUser = async ({ name, password: pass }) => {
       console.error("failed to login user with error", error);
       return null;
     });
-
   return user;
 };
 

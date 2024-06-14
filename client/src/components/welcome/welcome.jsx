@@ -1,9 +1,9 @@
 import React from 'react'
-import { getFromStore } from '../../logic/store'
+import { useSelector } from 'react-redux'
 
 export default function Welcome() {
-    const name = getFromStore("user").name;
+    const user = useSelector(state => state.user)
   return (
-    <div>Welcome {name} famely</div>
+    <div>Welcome {user.user.name} famely</div>
   )
 }
