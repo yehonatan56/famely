@@ -3,34 +3,25 @@ import { Formik } from "formik";
 import { withFormikDevtools } from "formik-devtools-extension";
 import { Link, useNavigate } from "react-router-dom";
 import validationSchema from "./Login.validation";
-import { loginUser } from "../../../requests/auth.proxy";
-import './auth.css';
-import { useDispatch } from "react-redux";
-import { pushUser } from "../../../store/userSlice";
+import { loginUser } from "../../../logic/user.logic";
+import "./auth.css";
 
 function LoginForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    // check on meeting
-    const { name, password } = values;
-    try {
-      const user = await loginUser({ name, password });
-
-      if (!user._id) {
-        setErrorMessage("Invalid username or password.");
-        return;
-      }
-      dispatch(pushUser({ user })); // Pass the user object
-      navigate("/welcome");
-    } catch (error) {
-      console.error(error);
-      setErrorMessage("Failed to login. Please try again later.");
-    } finally {
-      setSubmitting(false);
-    }
+    loginUser({ name: values.name, password: values.password })
+      .then((user) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMessage(error + "\nFailed to login. Please try again later.");
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (

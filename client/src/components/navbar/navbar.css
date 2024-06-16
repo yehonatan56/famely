@@ -1,32 +1,41 @@
 /* Navbar.css */
 nav {
-    background-color: #333;
-    padding: 1rem;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    position: absolute;
-    top: 10px;
-  }
-  
-  nav ul {
-    list-style-type: none;
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
-  }
-  
-  nav li {
-    margin: 0 1rem;
-  }
-  
-  nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2rem;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
+  background-color: #333;
+  padding: 1rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 30px;
+  width: 100%;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+nav li {
+  margin: 0 1rem;
+  flex: 1 1 auto;
+  width: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+nav a,
+nav button {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+nav a:hover,
+nav button:hover {
+  text-decoration: underline;
+}

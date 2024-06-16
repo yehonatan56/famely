@@ -1,9 +1,9 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React from "react";
+import { useSelector } from "react-redux";
+import { getUserDataSelector } from "../../store/selectors/user.selector";
 
 export default function Welcome() {
-    const user = useSelector(state => state.user)
-  return (
-    <div>Welcome {user.user.name} famely</div>
-  )
+  const user = useSelector((state) => getUserDataSelector(state));
+
+  return <div>Welcome {user.name} famely</div>;
 }

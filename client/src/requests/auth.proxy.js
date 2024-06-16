@@ -1,4 +1,4 @@
-export const loginUser = async ({ name, password: pass }) => {
+export const loginUserRequest = async ({ name, password: pass }) => {
   const user = await fetch("http://localhost:3009/famelys/checkValidity", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -12,13 +12,13 @@ export const loginUser = async ({ name, password: pass }) => {
   return user;
 };
 
-export const registerUser = async ({ name, password: pass }) => {
-  const response = await fetch('http://localhost:3009/famelys/', {
-    method: 'POST',
+export const registerUserRequest = async ({ name, password: pass }) => {
+  const response = await fetch("http://localhost:3009/famelys/", {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name, pass: pass, famely: { images: [] } })
+    body: JSON.stringify({ name, pass: pass, famely: { images: [] } }),
   })
     // .then((response) => response.json())
     .catch((error) => {

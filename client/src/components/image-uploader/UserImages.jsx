@@ -5,9 +5,18 @@ import { getUserImagesByPage } from "../../logic/images.logic";
 import { useImageEvents } from "./hooks/useImageEvents";
 import { useImagesPagination } from "./hooks/useImagesPagination";
 import { useSelector } from "react-redux";
+import {
+  getUserDataSelector,
+  getUserImagesSelector,
+} from "../../store/selectors/user.selector";
 
 export const UserImages = ({}) => {
-  const user = useSelector(state => state.user).user;
+  // const { user } = useSelector((state) => ({
+  //   user: getUserDataSelector(state),
+  // }));
+
+  const userImages = useSelector((state) => getUserImagesSelector(state));
+
   const [images, setImages] = useState([]);
 
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
@@ -18,14 +27,12 @@ export const UserImages = ({}) => {
     });
 
   useEffect(() => {
-    getUserImagesByPage(user, currentPage)
+    getUserImagesByPage(userImages, currentPage)
       .then((userImages) => {
         setImages(userImages);
       })
       .catch((error) => console.error("failed to getUserImagesByPage", error));
-  }, [user, currentPage]);
-
-  
+  }, [userImages, currentPage]);
 
   return (
     <div className="user-images-container">

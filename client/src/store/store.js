@@ -1,10 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "./userSlice";
-import imagesSlice from "./imagesSlice";
+import userReducer from "./slices/user.slice";
+// import imagesSlice from "./imagesSlice";
 
 export const store = configureStore({
-    reducer: { 
-        user: userReducer,
-        images: imagesSlice,
-    }
+  devTools: true,
+  reducer: {
+    users: userReducer,
+    // images: imagesSlice,
+  },
 });
+
+export const dispatch = (action) => {
+  return store?.dispatch(action);
+};
+
+export const getState = () => {
+  return store?.getState();
+};

@@ -19,10 +19,10 @@ export const uploadImageFile = async (file) => {
   }
 };
 
-export const getUserImagesByPage = async (user, page = 1) => {
- // return MOCK_IMAGES;
+export const getUserImagesByPage = async (images, page = 1) => {
+  // return MOCK_IMAGES;
 
-  const imagesFromDB = (user?.famely?.images ?? []).map((item) => ({
+  const imagesFromDB = images.map((item) => ({
     url: item.url,
     metadata: {
       page: item.page,
