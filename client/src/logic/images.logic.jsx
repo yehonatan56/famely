@@ -1,4 +1,4 @@
-import MOCK_IMAGES from "../mocks/IMAGES";
+// import MOCK_IMAGES from "../IMAGES";
 
 export const uploadImageFile = async (file) => {
   if (!file) return;
@@ -20,7 +20,7 @@ export const uploadImageFile = async (file) => {
 };
 
 export const getUserImagesByPage = async (user, page = 1) => {
-  return MOCK_IMAGES;
+ // return MOCK_IMAGES;
 
   const imagesFromDB = (user?.famely?.images ?? []).map((item) => ({
     url: item.url,

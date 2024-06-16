@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Image from "./image";
 import ResponsivePagination from "react-responsive-pagination";
-import { getFromStore } from "../../logic/store";
 import { getUserImagesByPage } from "../../logic/images.logic";
 import { useImageEvents } from "./hooks/useImageEvents";
 import { useImagesPagination } from "./hooks/useImagesPagination";
+import { useSelector } from "react-redux";
 
 export const UserImages = ({}) => {
-  const user = getFromStore("user");
+  const user = useSelector(state => state.user).user;
   const [images, setImages] = useState([]);
 
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
@@ -24,6 +24,8 @@ export const UserImages = ({}) => {
       })
       .catch((error) => console.error("failed to getUserImagesByPage", error));
   }, [user, currentPage]);
+
+  
 
   return (
     <div className="user-images-container">
