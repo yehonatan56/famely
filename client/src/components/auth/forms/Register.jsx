@@ -1,29 +1,28 @@
 import React, { useState } from "react";
 import { withFormikDevtools } from "formik-devtools-extension";
 import { useNavigate, Link } from "react-router-dom";
-import { registerUserRequest } from "../../../requests/auth.proxy";
 import validationSchema from "./Login.validation";
 import { Formik } from "formik";
 import "./auth.css";
-import { useDispatch } from "react-redux";
-import { setUserAction } from "../../../store/slices/user.slice";
+import { registerUser } from "../../../logic/user.logic";
 
 function RegisterForm() {
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const handleSubmit = async (event, { name, password }) => {
     // todo: move to user.logic
-    event?.preventDefault();
-
-    const user = await registerUserRequest({ name, password });
-    if (!user) {
-      throw Error("user not registered");
-    }
-
-    dispatch(setUserAction({ user })); // Pass the user object
-    navigate("/login");
+    registerUser({ name, password})
+      .then((user) => {
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error(error);
+        setErrorMessage(error + "\nFailed to register. Please try again later.");
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   return (
