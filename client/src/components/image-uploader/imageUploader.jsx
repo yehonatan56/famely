@@ -10,9 +10,8 @@ const ImageUploader = () => {
   return (
     <div className="image-uploader-container">
       <Navbar />
-      <h2>Image Uploader Page</h2>
 
-      <CheckUser />
+      <h2>Image Uploader Page</h2>
 
       <UploadImageInput />
 

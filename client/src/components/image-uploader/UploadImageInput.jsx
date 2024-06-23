@@ -1,27 +1,20 @@
 import React, { useState } from "react";
-import { uploadImageFile } from "../../logic/images.logic";
 import ImageModalForm from "./ImageModalForm";
+import { useImagesManagement } from "./hooks/useImagesManagement";
 
 export const UploadImageInput = () => {
   const [popup, setPopup] = useState(false);
-  const [url, seturl] = useState()
-  
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    const data = await uploadImageFile(file);
-
-    if (data) {
-      setPopup(true);
-      seturl(data)
-    } else {
-      console.error("failed to upload image data");
-    }
-  };
+  const { addImage } = useImagesManagement();
 
   return (
     <div>
-      {popup ? <ImageModalForm closePopup={() => setPopup(false)} url={url}/> :''}
-      <input type="file" onChange={handleFileUpload} accept="image/*" />
+      {!popup && <button onClick={() => setPopup(true)}> add image</button>}
+      {popup && (
+        <ImageModalForm
+          closePopup={() => setPopup(false)}
+          addImage={addImage}
+        />
+      )}
     </div>
   );
 };
