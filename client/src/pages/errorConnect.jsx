@@ -1,7 +1,5 @@
-import React from 'react'
+import React from "react";
 
 export default function ErrorConnect() {
-  return (
-    <div>ErrorConnect</div>
-  )
+  return <div>Error </div>;
 }

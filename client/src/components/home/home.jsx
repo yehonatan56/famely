@@ -2,15 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./home.css";
 import { useSelector } from "react-redux";
-import { isUserLoginSelector } from "../../store/selectors/user.selector";
+import { isAuthenticatedUserSelector } from "../../store/selectors/user.selector";
 import Welcome from "../welcome/welcome";
+import Navbar from "../navbar/navbar";
 
 const Home = () => {
-  const isExists = useSelector((state) => isUserLoginSelector(state));
+  const isAuthenticated = useSelector((state) =>
+    isAuthenticatedUserSelector(state)
+  );
 
   return (
     <div className="home-container">
-      {isExists ? <Welcome /> : <Link to={"/login"}>Login</Link>}
+      <Navbar />
+      {isAuthenticated ? <Welcome /> : <Link to={"/login"}>Login</Link>}
     </div>
   );
 };

@@ -8,17 +8,17 @@
 //   const [roomDetails, setRoomDetails] = useState({});
 //   const [inputMessage, setInputMessage] = useState('');
 //   const chatMessagesRef = useRef(null);
-  
+
 //   const navigate = useNavigate();
 //   const nickName =  prompt('Please enter your nickname'); // Falsazzzlback to prompt if no nickname
-  
+
 //   useEffect(() => {
 //     const storedData = getFromStore("user");
 //     if (!storedData) {
 //       navigate("/");
 //       return;
 //     };
-    
+
 //     const id = storedData._id;
 //     //const user = JSON.parse(localStorage.getItem("user"));
 //     const room = id;
@@ -91,10 +91,14 @@
 
 // export default Chat;
 
-import React from 'react'
+import React from "react";
+import Navbar from "../navbar/navbar";
 
 export default function Chat() {
   return (
-    <div>Chat</div>
-  )
+    <div>
+      <Navbar />
+      Chat
+    </div>
+  );
 }
