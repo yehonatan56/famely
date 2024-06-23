@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {  useState } from "react";
 
 export const useImagesPagination = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,4 +13,5 @@ export const useImagesPagination = () => {
     totalPages,
     onPageChange,
   };
-};
+}
+

@@ -1,8 +1,6 @@
 import React from "react";
 import { UploadImageInput } from "./UploadImageInput";
 import { UserImages } from "./UserImages";
-import { ImageModalForm } from "./ImageModalForm";
-
 import "react-responsive-pagination/themes/classic.css";
 import "./ImageUploader.css";
 import CheckUser from "../auth/generalSecurity/checkUser";
@@ -15,10 +13,6 @@ const ImageUploader = () => {
       <UploadImageInput />
 
       <UserImages />
-
-      <ImageModalForm />
-
-      {/*<button onClick={saveChangesToServer}>Save Changes</button>*/}
     </div>
   );
 };

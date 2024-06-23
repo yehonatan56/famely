@@ -1,59 +1,51 @@
-import React, { useState } from "react";
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { FormSchema } from './schema';
+import { useImagesManagement } from './hooks/useImagesManagement';
 
-export const ImageModalForm = ({}) => {
-  const [showPopup, setShowPopup] = useState(false);
-  const [formDetails, setFormDetails] = useState({
-    name: "",
-    description: "",
-  });
+const ImageModalForm = ({ closePopup , url }) => {
+  const { addImage } = useImagesManagement();
+  const uploadImage = ({ name, description }, { setSubmitting }) => {
+    setTimeout(() => {
+      closePopup();
+      addImage({
+        url,
+        name,
+        description,
+        width: 100,
+        height: 100,
+        top: 50,
+        left: 50,
+      })
+      setSubmitting(false);
+    }, 400);
 
-  // Function to save changes to the server via a PUT request
-  // Handle metadata form submission
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    // const updatedImages = [...images];
-    // updatedImages[editingIndex].metadata = {
-    //   ...updatedImages[editingIndex].metadata,
-    //   ...formDetails,
-    //   page: currentPage,
-    // };
-    // setImages(updatedImages);
-    setShowPopup(false); // Close the popup
-  };
-
-  // Handle form field changes
-  const handleFormChange = (e) => {
-    setFormDetails({ ...formDetails, [e.target.name]: e.target.value });
-  };
-
-  if (!showPopup) return null;
+  }
   return (
-    <div className="popup">
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formDetails.name}
-            onChange={handleFormChange}
-          />
-        </label>
-        <label>
-          Description:
-          <input
-            type="text"
-            name="description"
-            value={formDetails.description}
-            onChange={handleFormChange}
-          />
-        </label>
-
-        <button type="submit">Save</button>
-        <button type="button" onClick={() => setShowPopup(false)}>
-          Cancel
-        </button>
-      </form>
-    </div>
+    <Formik
+      initialValues={{ name: '', description: '' }}
+      validationSchema={FormSchema}
+      onSubmit={uploadImage}
+    >
+      {({ isSubmitting }) => (
+        <Form>
+          <div>
+            <label htmlFor="name">Name</label>
+            <Field type="text" name="name" />
+            <ErrorMessage name="name" component="div" />
+          </div>
+          <div>
+            <label htmlFor="description">Description</label>
+            <Field type="text" name="description" />
+            <ErrorMessage name="description" component="div" />
+          </div>
+          <button type="submit" disabled={isSubmitting}>
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
   );
 };
+
+export default ImageModalForm;

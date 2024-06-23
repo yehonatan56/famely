@@ -12,7 +12,7 @@ export const uploadImageFile = async (file) => {
       body: formData,
     }).then((response) => response.json());
 
-    return data;
+    return data.url;
   } catch (error) {
     console.error("Error uploading image:", error);
     return null;
@@ -31,8 +31,7 @@ export const getUserImagesByPage = async (images, page = 1) => {
       width: item.width,
       height: item.height,
       name: item.name,
-      description: item.description,
-      birthdate: item.birthdate,
+      description: item.description, 
     },
   }));
 
