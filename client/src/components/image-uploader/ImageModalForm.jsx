@@ -10,14 +10,20 @@ const ImageModalFormik = ({
   handleBlur,
   setFieldValue,
   isSubmitting,
+  handleReset,
 }) => {
+  const fileInputRef = React.createRef();
   const filePreviewSrc = useFilePreview(values.file);
 
   const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    debugger;
-    // todo: check how to save image file in formik props
+    const file = event.currentTarget.files[0];
     setFieldValue("file", file);
+  };
+
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   return (
@@ -32,7 +38,7 @@ const ImageModalFormik = ({
           name="name"
           value={values.name}
           onChange={handleChange}
-          onBlue={handleBlur}
+          onBlur={handleBlur}
         />
         <ErrorMessage name="name" component="div" />
       </div>
@@ -43,18 +49,19 @@ const ImageModalFormik = ({
           name="description"
           value={values.description}
           onChange={handleChange}
-          onBlue={handleBlur}
+          onBlur={handleBlur}
         />
         <ErrorMessage name="description" component="div" />
       </div>
       <input
         type="file"
+        name="file"
         accept="image/*"
-        value={values.file}
+        ref={fileInputRef}
         onChange={handleFileUpload}
       />
 
-      <button type="submit" disabled={isSubmitting}>
+      <button type="submit" disabled={isSubmitting} onClick={resetFileInput}>
         Submit
       </button>
     </>
