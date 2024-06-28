@@ -1,104 +1,111 @@
-// import React, { useState, useEffect, useRef } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import io from 'socket.io-client';
-// import { getFromStore } from '../../logic/store';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import io from 'socket.io-client';
+import { Input } from '@mantine/core';
 
-// function Chat() {
-//   const [messages, setMessages] = useState([]);
-//   const [roomDetails, setRoomDetails] = useState({});
-//   const [inputMessage, setInputMessage] = useState('');
-//   const chatMessagesRef = useRef(null);
+import { getUserDataSelector } from '../../store/selectors/user.selector';
+import Navbar from '../navbar/navbar';
 
-//   const navigate = useNavigate();
-//   const nickName =  prompt('Please enter your nickname'); // Falsazzzlback to prompt if no nickname
+function Chat() {
+  const [isChat, setIsChat] = useState(false);
+  const [name, setName] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [roomDetails, setRoomDetails] = useState({});
+  const [inputMessage, setInputMessage] = useState('');
+  const chatMessagesRef = useRef(null);
+  const user = useSelector((state) => getUserDataSelector(state));
+  const id = user._id;
 
-//   useEffect(() => {
-//     const storedData = getFromStore("user");
-//     if (!storedData) {
-//       navigate("/");
-//       return;
-//     };
+  const clientIO = useRef(null);
 
-//     const id = storedData._id;
-//     //const user = JSON.parse(localStorage.getItem("user"));
-//     const room = id;
+  useEffect(() => {
+    if (!name) return;
 
-//     const clientIO = io("http://localhost:3001/", { transports: ['websocket', 'polling', 'flashsocket'] });
+    const room = id;
 
-//     clientIO.emit("join", { username: nickName, room });
+    clientIO.current = io("http://localhost:3001/", { transports: ['websocket', 'polling', 'flashsocket'] });
 
-//     clientIO.on("connect", () => {
-//       console.log("Connected to server...");
-//     });
+    clientIO.current.emit("join", { username: name, room });
 
-//     clientIO.on("message", messageObj => {
-//       setMessages(prevMessages => [...prevMessages, messageObj]);
-//       if (chatMessagesRef.current) {
-//         chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
-//       }
-//     });
+    clientIO.current.on("connect", () => {
+      console.log("Connected to server...");
+    });
 
-//     clientIO.on("roomUsers", roomDetails => {
-//       setRoomDetails(roomDetails);
-//     });
+    clientIO.current.on("message", messageObj => {
+      setMessages(prevMessages => [...prevMessages, messageObj]);
+      if (chatMessagesRef.current) {
+        chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+      }
+    });
 
-//     clientIO.on("chats", chats => {
-//       console.log("Chats ", chats);
-//     });
+    clientIO.current.on("roomUsers", roomDetails => {
+      setRoomDetails(roomDetails);
+    });
 
-//     return () => clientIO.disconnect(); // Clean up on component unmount
-//   }, []);
+    clientIO.current.on("chats", chats => {
+      console.log("Chats ", chats);
+    });
 
-//   const sendMessage = (event) => {
-//     event.preventDefault();
-//     const clientIO = io("http://localhost:3001/");
-//     if (inputMessage.trim()) {
-//       clientIO.emit('chatMessage', inputMessage);
-//       setInputMessage('');
-//     }
-//   };
+    return () => clientIO.current.disconnect(); // Clean up on component unmount
+  }, [id, name]);
 
-//   return (
-//     <div>
-//       <h2 id="greet-user">Welcome {nickName}!</h2>
-//       <div className="chat-messages" ref={chatMessagesRef}>
-//         {messages.map((msg, index) => (
-//           <div key={index} className="message" style={{ backgroundColor: msg.username === nickName ? 'blue' : '--ChatRoom Bot--' === msg.username ? 'green' : 'white' }}>
-//             <p className="meta">{msg.username} <span>{msg.time}</span></p>
-//             <p className="text">{msg.message}</p>
-//           </div>
-//         ))}
-//       </div>
-//       <form id="chat-form" onSubmit={sendMessage}>
-//         <input
-//           type="text"
-//           name="msg"
-//           value={inputMessage}
-//           onChange={e => setInputMessage(e.target.value)}
-//           placeholder="Type a message..."
-//           required
-//         />
-//         <button type="submit">Send</button>
-//       </form>
-//       <div id="users">
-//         {roomDetails.users && roomDetails.users.map((user, index) => (
-//           <li key={index}>{user.username}</li>
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
+  const sendMessage = (event) => {
+    event.preventDefault();
+    if (inputMessage.trim()) {
+      clientIO.current.emit('chatMessage', inputMessage);
+      setInputMessage('');
+    }
+  };
 
-// export default Chat;
+  const handleNameSubmit = (event) => {
+    event.preventDefault();
+    setIsChat(true);
+  };
 
-import React from "react";
-import Navbar from "../navbar/navbar";
-
-export default function Chat() {
   return (
     <div>
       <Navbar />
-      Chat
+      {!isChat ?
+        <form onSubmit={handleNameSubmit}>
+          <Input
+            placeholder='Enter name'
+            onChange={e => setName(e.target.value)}
+            required
+          />
+          <button type="submit">Join Chat</button>
+        </form>
+        : (
+          <>
+            <h2 id="greet-user">Welcome {name}!</h2>
+            <div className="chat-messages" ref={chatMessagesRef}>
+              {messages.map((msg, index) => (
+                <div key={index} className="message" style={{ backgroundColor: msg.username === name ? 'blue' : '--ChatRoom Bot--' === msg.username ? 'green' : 'white' }}>
+                  <p className="meta">{msg.username} <span>{msg.time}</span></p>
+                  <p className="text">{msg.message}</p>
+                </div>
+              ))}
+            </div>
+            <form id="chat-form" onSubmit={sendMessage}>
+              <input
+                type="text"
+                name="msg"
+                value={inputMessage}
+                onChange={e => setInputMessage(e.target.value)}
+                placeholder="Type a message..."
+                required
+              />
+              <button type="submit">Send</button>
+            </form>
+            <div id="users">
+              {roomDetails.users && roomDetails.users.map((user, index) => (
+                <li key={index}>{user.username}</li>
+              ))}
+            </div>
+          </>
+        )
+      }
     </div>
   );
 }
+
+export default Chat;

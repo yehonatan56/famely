@@ -20,9 +20,9 @@ function RegisterForm() {
         console.error(error);
         setErrorMessage(error + "\nFailed to register. Please try again later.");
       })
-      .finally(() => {
-        setSubmitting(false);
-      });
+      // .finally(() => {
+      //   setSubmitting(false);
+      // });
   };
 
   return (

@@ -9,8 +9,9 @@ const ImageModalFormik = ({
   handleChange,
   handleBlur,
   setFieldValue,
+  setSubmitting,
   isSubmitting,
-  handleReset,
+  handleSubmit
 }) => {
   const fileInputRef = React.createRef();
   const filePreviewSrc = useFilePreview(values.file);
@@ -18,6 +19,7 @@ const ImageModalFormik = ({
   const handleFileUpload = async (event) => {
     const file = event.currentTarget.files[0];
     setFieldValue("file", file);
+
   };
 
   const resetFileInput = () => {
@@ -29,6 +31,7 @@ const ImageModalFormik = ({
   return (
     <>
       <div>
+
         {filePreviewSrc && <img src={filePreviewSrc} alt="image-preview" />}
       </div>
       <div>
@@ -61,7 +64,7 @@ const ImageModalFormik = ({
         onChange={handleFileUpload}
       />
 
-      <button type="submit" disabled={isSubmitting} onClick={resetFileInput}>
+      <button type="submit" disabled={isSubmitting} onClick={() => setSubmitting(true)}>
         Submit
       </button>
     </>
@@ -76,12 +79,10 @@ export default withFormik({
     file: props.file ?? null,
   }),
   handleSubmit: async (values, { setSubmitting, props }) => {
+    console.log('485');
     const { file, ...formData } = values;
 
     const data = await uploadImageFile(file)
-      .then(() => {
-        // todo: send data to server of name & description image
-      })
       .then(() => {
         props.closePopup?.();
       })
