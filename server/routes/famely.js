@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { FamelyModel } = require("../models/famely"); // Update the import path to the correct location
+const { checkName } = require("../db/checkName");
 
 const router = express.Router();
 
@@ -59,6 +60,7 @@ router.post("/", async (req, res) => {
   try {
 
     // Create a new FamelyModel instance with the hashed password
+        if(!checkName(req.body.name)) throw new  Error("namw is taken")
     const famely = new FamelyModel({
       name: req.body.name,
       famely: req.body.famely,
