@@ -1,20 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import ImageModalForm from "./ImageModalForm";
 import { useImagesManagement } from "./hooks/useImagesManagement";
 
-export const UploadImageInput = () => {
-  const [popup, setPopup] = useState(false);
+export const UploadImageInput = ({ closeForm }) => {
   const { addImage } = useImagesManagement();
 
-  return (
-    <div>
-      {!popup && <button onClick={() => setPopup(true)}> add image</button>}
-      {popup && (
-        <ImageModalForm
-          closePopup={() => setPopup(false)}
-          addImage={addImage}
-        />
-      )}
-    </div>
-  );
+  return <ImageModalForm closePopup={() => closeForm()} addImage={addImage} />;
 };

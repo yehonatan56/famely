@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ImageUploader from "../../image-uploader/imageUploader"; // This would be your main UI component after login
+import ImageUploaderLayout from "../../image-uploader/imageUploaderLayout"; // This would be your main UI component after login
 import LoginForm from "./Login";
 import RegisterForm from "./Register";
 
@@ -18,7 +18,7 @@ export default function Forms() {
           <LoginForm onLoginSuccess={handleLoginSuccess} />
         </div>
       ) : (
-        <ImageUploader user={user} />
+        <ImageUploaderLayout user={user} />
       )}
     </div>
   );

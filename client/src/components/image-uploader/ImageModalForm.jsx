@@ -1,39 +1,33 @@
 import React from "react";
+import { withFormikDevtools } from "formik-devtools-extension";
 import { withFormik, Field, ErrorMessage } from "formik";
 import { FormSchema } from "./schema";
 import { useFilePreview } from "../hooks";
 import { uploadImageFile } from "../../logic/images.logic";
 
-const ImageModalFormik = ({
-  values,
-  handleChange,
-  handleBlur,
-  setFieldValue,
-  setSubmitting,
-  isSubmitting,
-  handleSubmit
-}) => {
+const ImageModalFormik = (formikProps) => {
+  withFormikDevtools(formikProps);
+  const {
+    values,
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    setFieldTouched,
+    isSubmitting,
+    handleSubmit,
+  } = formikProps;
+
   const fileInputRef = React.createRef();
   const filePreviewSrc = useFilePreview(values.file);
 
   const handleFileUpload = async (event) => {
     const file = event.currentTarget.files[0];
+    setFieldTouched("file", true);
     setFieldValue("file", file);
-
-  };
-
-  const resetFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   return (
-    <>
-      <div>
-
-        {filePreviewSrc && <img src={filePreviewSrc} alt="image-preview" />}
-      </div>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1em" }}>
       <div>
         <label htmlFor="name">Name</label>
         <Field
@@ -64,10 +58,24 @@ const ImageModalFormik = ({
         onChange={handleFileUpload}
       />
 
-      <button type="submit" disabled={isSubmitting} onClick={() => setSubmitting(true)}>
+      <div>
+        {filePreviewSrc && (
+          <img
+            src={filePreviewSrc}
+            alt="image-preview"
+            style={{ maxHeight: "350px" }}
+          />
+        )}
+      </div>
+
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        onClick={() => handleSubmit()}
+      >
         Submit
       </button>
-    </>
+    </div>
   );
 };
 
@@ -79,7 +87,7 @@ export default withFormik({
     file: props.file ?? null,
   }),
   handleSubmit: async (values, { setSubmitting, props }) => {
-    console.log('485');
+    console.log("485");
     const { file, ...formData } = values;
 
     const data = await uploadImageFile(file)

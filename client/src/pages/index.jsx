@@ -7,7 +7,7 @@ import { Loader } from "@mantine/core";
 // import Forms from "../components/auth/forms";
 import Home from "../components/home/home";
 import Chat from "../components/chat/chat";
-import ImageUploader from "../components/image-uploader/imageUploader";
+import ImageUploaderLayout from "../components/image-uploader/imageUploaderLayout";
 import ErrorConnect from "./errorConnect";
 import AuthenticatedPage from "../components/auth/AuthenticatedPage";
 
@@ -41,7 +41,7 @@ export const RoutePages = () => {
       path: "/image-uploader",
       element: (
         <AuthenticatedPage>
-          <ImageUploader />
+          <ImageUploaderLayout />
         </AuthenticatedPage>
       ),
     },
