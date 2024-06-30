@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import io from 'socket.io-client';
 import { Input } from '@mantine/core';
-
+import './chat.css';
 import { getUserDataSelector } from '../../store/selectors/user.selector';
 import Navbar from '../navbar/navbar';
 
@@ -16,50 +16,64 @@ function Chat() {
   const user = useSelector((state) => getUserDataSelector(state));
   const id = user._id;
 
-  const clientIO = useRef(null);
+  const clientIO = useRef(null); // Use useRef to persist the socket instance
 
   useEffect(() => {
     if (!name) return;
 
+    if (!clientIO.current) {
+      clientIO.current = io("http://localhost:3001/", { transports: ['websocket', 'polling', 'flashsocket'] });
+
+      clientIO.current.on("connect", () => {
+        console.log("Connected to server...");
+      });
+
+      clientIO.current.on("message", messageObj => {
+        setMessages(prevMessages => [...prevMessages, messageObj]);
+        if (chatMessagesRef.current) {
+          chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+        }
+      });
+
+      clientIO.current.on("roomUsers", roomDetails => {
+        setRoomDetails(roomDetails);
+      });
+
+      clientIO.current.on("chats", chats => {
+        console.log("Chats ", chats);
+      });
+    }
+
     const room = id;
-
-    clientIO.current = io("http://localhost:3001/", { transports: ['websocket', 'polling', 'flashsocket'] });
-
     clientIO.current.emit("join", { username: name, room });
 
-    clientIO.current.on("connect", () => {
-      console.log("Connected to server...");
-    });
-
-    clientIO.current.on("message", messageObj => {
-      setMessages(prevMessages => [...prevMessages, messageObj]);
-      if (chatMessagesRef.current) {
-        chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    return () => {
+      if (clientIO.current) {
+        clientIO.current.disconnect();
+        clientIO.current = null; // Reset the ref to ensure clean up
       }
-    });
-
-    clientIO.current.on("roomUsers", roomDetails => {
-      setRoomDetails(roomDetails);
-    });
-
-    clientIO.current.on("chats", chats => {
-      console.log("Chats ", chats);
-    });
-
-    return () => clientIO.current.disconnect(); // Clean up on component unmount
-  }, [id, name]);
+    };
+  }, [name, id]);
 
   const sendMessage = (event) => {
     event.preventDefault();
     if (inputMessage.trim()) {
-      clientIO.current.emit('chatMessage', inputMessage);
+      const msg = {
+        username: name,
+        message: inputMessage,
+        time: new Date().toLocaleTimeString()
+      };
+      setMessages(prevMessages => [...prevMessages, msg]);
+      clientIO.current.emit('chatMessage', msg);
       setInputMessage('');
     }
   };
 
   const handleNameSubmit = (event) => {
     event.preventDefault();
-    setIsChat(true);
+    if (name.trim()) {
+      setIsChat(true);
+    }
   };
 
   return (
@@ -77,9 +91,12 @@ function Chat() {
         : (
           <>
             <h2 id="greet-user">Welcome {name}!</h2>
-            <div className="chat-messages" ref={chatMessagesRef}>
+            <div className="chat" ref={chatMessagesRef}>
               {messages.map((msg, index) => (
-                <div key={index} className="message" style={{ backgroundColor: msg.username === name ? 'blue' : '--ChatRoom Bot--' === msg.username ? 'green' : 'white' }}>
+                <div key={index} className="message" style={{
+                  backgroundColor: msg.username === name ? 'blue' :
+                    '--ChatRoom Bot--' === msg.username ? 'gray' : 'white'
+                }}>
                   <p className="meta">{msg.username} <span>{msg.time}</span></p>
                   <p className="text">{msg.message}</p>
                 </div>

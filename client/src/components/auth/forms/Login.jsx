@@ -27,7 +27,7 @@ function LoginForm() {
   return (
     <div className="form-container">
       <Formik
-        initialValues={{ name: "", password: "" }}
+        initialValues={{ name: "abb", password: "11001100" }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >

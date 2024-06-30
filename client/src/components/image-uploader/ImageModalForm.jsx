@@ -1,7 +1,7 @@
 import React from "react";
 import { withFormik, Field, ErrorMessage } from "formik";
 import { FormSchema } from "./schema";
-import { useFilePreview } from "../../hooks";
+import { useFilePreview } from "../hooks";
 import { uploadImageFile } from "../../logic/images.logic";
 
 const ImageModalFormik = ({
