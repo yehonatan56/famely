@@ -87,10 +87,8 @@ export default withFormik({
     file: props.file ?? null,
   }),
   handleSubmit: async (values, { setSubmitting, props }) => {
-    console.log("485");
-    const { file, ...formData } = values;
-
-    const data = await uploadImageFile(file)
+    props
+      .onSubmit(values)
       .then(() => {
         props.closePopup?.();
       })
@@ -101,16 +99,16 @@ export default withFormik({
         setSubmitting(false);
       });
 
-    if (data) {
-      props.addImage({
-        url: data.url,
-        name: data.name,
-        description: data.description,
-        width: 100,
-        height: 100,
-        top: 50,
-        left: 50,
-      });
-    }
+    // if (data) {
+    //   props.addImage({
+    //     url: data.url,
+    //     name: data.name,
+    //     description: data.description,
+    //     width: 100,
+    //     height: 100,
+    //     top: 50,
+    //     left: 50,
+    //   });
+    // }
   },
 })(ImageModalFormik);

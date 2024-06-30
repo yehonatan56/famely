@@ -1,22 +1,10 @@
 // import MOCK_IMAGES from "../IMAGES";
 
-export const uploadImageFile = async (file) => {
-  if (!file) return;
+import { uploadImageFileRequest } from "../requests/image.proxy";
 
-  const formData = new FormData();
-  formData.append("file", file);
-
-  try {
-    const data = await fetch("http://localhost:3009/upload", {
-      method: "POST",
-      body: formData,
-    }).then((response) => response.json());
-
-    return data.url;
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    return null;
-  }
+export const uploadImageFile = async (imageData) => {
+  const { file, ...metaData } = imageData;
+  await uploadImageFileRequest(file);
 };
 
 export const getUserImagesByPage = async (images, page = 1) => {
@@ -31,7 +19,7 @@ export const getUserImagesByPage = async (images, page = 1) => {
       width: item.width,
       height: item.height,
       name: item.name,
-      description: item.description, 
+      description: item.description,
     },
   }));
 
