@@ -18,7 +18,7 @@ export default function Welcome() {
       }}
     >
       <div>Welcome {user.name} famely</div>
-      <FamilyTree />
+      {/*<FamilyTree />*/}
     </div>
   );
 }
