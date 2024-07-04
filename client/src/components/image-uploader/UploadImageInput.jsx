@@ -6,11 +6,26 @@ import { uploadImageFile } from "../../logic/images.logic";
 export const UploadImageInput = ({ closeForm }) => {
   const { addImage } = useImagesManagement();
 
+
   return (
     <ImageModalForm
-      closePopup={() => closeForm()}
       addImage={addImage}
-      onSubmit={(values) => uploadImageFile(values)}
+      onSubmit={async(values) => {
+        closeForm();
+        const url = await uploadImageFile(values);
+        addImage({
+          url: url,
+          metadata: {
+            name: values.name,
+            description: values.description,
+            width: 100,
+            height: 100,
+            top: 50,
+            left: 50,
+          }
+        });
+
+      }}
     />
   );
 };

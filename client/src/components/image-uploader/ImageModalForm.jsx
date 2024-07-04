@@ -90,8 +90,8 @@ export default withFormik({
     props
       .onSubmit(values)
       .then(() => {
-        props.closePopup?.();
-      })
+      
+     })
       .catch((error) => {
         alert(error.message);
       })
@@ -100,15 +100,6 @@ export default withFormik({
       });
 
     // if (data) {
-    //   props.addImage({
-    //     url: data.url,
-    //     name: data.name,
-    //     description: data.description,
-    //     width: 100,
-    //     height: 100,
-    //     top: 50,
-    //     left: 50,
-    //   });
-    // }
+        // }
   },
 })(ImageModalFormik);

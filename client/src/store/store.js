@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/user.slice";
-// import imagesSlice from "./imagesSlice";
+import imagesSlice from "./slices/images.slice";
 
 export const store = configureStore({
   devTools: true,
   reducer: {
     users: userReducer,
-    // images: imagesSlice,
+    images: imagesSlice,
   },
 });
 

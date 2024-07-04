@@ -4,7 +4,8 @@ import { uploadImageFileRequest } from "../requests/image.proxy";
 
 export const uploadImageFile = async (imageData) => {
   const { file, ...metaData } = imageData;
-  await uploadImageFileRequest(file);
+  const url = await uploadImageFileRequest(file);
+  return url;
 };
 
 export const getUserImagesByPage = async (images, page = 1) => {

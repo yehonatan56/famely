@@ -10,9 +10,8 @@ export const imagesSlice = createSlice({
     }
 });
 
-// Correct the selector
-export const selectImages = (state) => state.images;
+
 
 // Export the actions and the reducer
-export const { pushImages } = imagesSlice.actions;
+export const { pushImages: setImagesAction } = imagesSlice.actions;
 export default imagesSlice.reducer;

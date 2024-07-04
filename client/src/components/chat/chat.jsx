@@ -64,6 +64,7 @@ function Chat() {
         time: new Date().toLocaleTimeString()
       };
       setMessages(prevMessages => [...prevMessages, msg]);
+      console.log(messages);
       clientIO.current.emit('chatMessage', msg);
       setInputMessage('');
     }
@@ -97,8 +98,8 @@ function Chat() {
                   backgroundColor: msg.username === name ? 'blue' :
                     '--ChatRoom Bot--' === msg.username ? 'gray' : 'white'
                 }}>
-                  <p className="meta">{msg.username} <span>{msg.time}</span></p>
-                  <p className="text">{msg.message}</p>
+                  <divv className="meta">{msg.username} <span></span></divv>
+                  <div className="text">{msg.message}</div>
                 </div>
               ))}
             </div>
@@ -114,9 +115,9 @@ function Chat() {
               <button type="submit">Send</button>
             </form>
             <div id="users">
-              {roomDetails.users && roomDetails.users.map((user, index) => (
+              {/* {roomDetails.users && roomDetails.users.map((user, index) => (
                 <li key={index}>{user.username}</li>
-              ))}
+              ))} */}
             </div>
           </>
         )

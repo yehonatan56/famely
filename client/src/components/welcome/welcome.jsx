@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { getUserDataSelector } from "../../store/selectors/user.selector";
-import FamilyTree from "../family-tree/FamilyTree";
+// import FamilyTree from "../family-tree/FamilyTree";
 
 export default function Welcome() {
   const user = useSelector((state) => getUserDataSelector(state));

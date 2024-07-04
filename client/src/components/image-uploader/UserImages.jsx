@@ -4,33 +4,32 @@ import ResponsivePagination from "react-responsive-pagination";
 import Image from "./image";
 import { getUserImagesByPage } from "../../logic/images.logic";
 import { useImageEvents } from "./hooks/useImageEvents";
-import { useImagesManagement } from "./hooks/useImagesManagement";
 import { useImagesPagination } from "./hooks/useImagesPagination";
 import { getUserImagesSelector } from "../../store/selectors/user.selector";
+import { dispatch } from "../../store/store";
+import { setImagesAction } from "../../store/slices/images.slice";
+import { getImagesSelector } from "../../store/selectors/images.selector";
 
 export const UserImages = () => {
-  // const { user } = useSelector((state) => ({
-  //   user: getUserDataSelector(state),
-  // }));
-
+  
   const userImages = useSelector((state) => getUserImagesSelector(state));
 
-  const {images , setImagesState} = useImagesManagement();
 
+  const images = useSelector(getImagesSelector)
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
   const { handleImageClick, handleMouseDown, handleResizeStart } =
     useImageEvents({
       images,
-      updateImages: (updatedImages) => setImages(updatedImages),
+      updateImages: (updatedImages) => dispatch(setImagesAction(updatedImages)),
     });
 
   useEffect(() => {
     getUserImagesByPage(userImages, currentPage)
       .then((userImages) => {
-        setImagesState(userImages);
+        dispatch(setImagesAction(userImages))
       })
       .catch((error) => console.error("failed to getUserImagesByPage", error));
-  }, [userImages, currentPage]);
+  }, []);
 
   
   return (
@@ -50,14 +49,14 @@ export const UserImages = () => {
             />
           ))}
       </div>
-      {images.length ? (
+      {/* {images.length ? (
         <ResponsivePagination
           current={currentPage}
           total={totalPages}
           onPageChange={onPageChange}
         />
       ) : null}
-      ;
+      ; */}
     </div>
   );
 };

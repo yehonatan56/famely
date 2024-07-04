@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { useImagesPagination } from './useImagesPagination';
+import { useSelector } from 'react-redux';
+import { dispatch } from '../../../store/store';
+import { setImagesAction } from '../../../store/slices/images.slice';
 
 export function useImagesManagement() {
-  const [images, setImages] = useState([]);
   const {currentPage} = useImagesPagination();
   const setImagesState = useCallback((newState) => {
-    setImages(newState)
+    dispatch(setImagesAction(newState)) 
   }, [])
 
 
