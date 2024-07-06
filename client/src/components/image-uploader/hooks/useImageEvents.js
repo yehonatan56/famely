@@ -12,8 +12,8 @@ export const useImageEvents = ({ images, updateImages }) => {
     setDraggingIndex(index);
     const img = images[index];
     setDragOffset({
-      x: event.clientX - img.metadata.left,
-      y: event.clientY - img.metadata.top,
+      x: event.clientX - img.left,
+      y: event.clientY - img.top,
     });
   };
 
@@ -25,13 +25,13 @@ export const useImageEvents = ({ images, updateImages }) => {
 
     setResizingIndex(index);
     setSizeOffset({
-      width: event.clientX - img.metadata.width,
-      height: event.clientY - img.metadata.height,
+      width: event.clientX - img.width,
+      height: event.clientY - img.height,
     });
   };
 
   // Function to update image position during a drag
-  const handleMouseMove = useCallback(
+   const handleMouseMove = useCallback(
     (event) => {
       if (draggingIndex !== null) {
         const updatedImages = images?.slice(0) ?? [];
@@ -41,8 +41,8 @@ export const useImageEvents = ({ images, updateImages }) => {
           event.clientY - dragOffset.y,
         ];
 
-        updatedImages[draggingIndex].metadata.left = left;
-        updatedImages[draggingIndex].metadata.top = top;
+        updatedImages[draggingIndex].left = left;
+        updatedImages[draggingIndex].top = top;
 
         updateImages?.(updatedImages);
       }
@@ -52,8 +52,8 @@ export const useImageEvents = ({ images, updateImages }) => {
         const width = event.clientX - sizeOffset.width
         const height = event.clientY - sizeOffset.height;
         // todo : change to [width, height] variables
-        updatedImages[resizingIndex].metadata.width = width;
-        updatedImages[resizingIndex].metadata.height = height;
+        updatedImages[resizingIndex].width = width;
+        updatedImages[resizingIndex].height = height;
 
         // todo: add question dot checking before using
         updateImages?.(updatedImages);
@@ -68,10 +68,10 @@ export const useImageEvents = ({ images, updateImages }) => {
     setResizingIndex(null);
   };
 
-  // Show metadata popup when clicking an image
+  // Show popup when clicking an image
   const handleImageClick = (index) => {
     setEditingIndex(index);
-    // setFormDetails(images[index].metadata);
+    // setFormDetails(images[index]);
     // setShowPopup(true);
   };
 

@@ -1,20 +1,22 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useImagesPagination } from './useImagesPagination';
 import { useSelector } from 'react-redux';
 import { dispatch } from '../../../store/store';
-import { setImagesAction } from '../../../store/slices/images.slice';
+import { updateImagesAction } from '../../../store/slices/user.slice';
+import { getUserImagesSelector } from '../../../store/selectors/user.selector';
 
 export function useImagesManagement() {
-  const {currentPage} = useImagesPagination();
+  const { currentPage } = useImagesPagination();
+  const images = useSelector((state) => getUserImagesSelector(state))
+
   const setImagesState = useCallback((newState) => {
-    dispatch(setImagesAction(newState)) 
+    dispatch(updateImagesAction(newState))
   }, [])
 
 
   const addImage = item => {
-    setImages([...images, {
+    dispatch(updateImagesAction([...images, {
       url: item.url,
-      metadata: {
         page: currentPage,
         top: item.top,
         left: item.left,
@@ -22,13 +24,13 @@ export function useImagesManagement() {
         height: item.height,
         name: item.name,
         description: item.description,
-      },
-    }])
+      
+    }]))
   }
   return {
     images,
     setImagesState,
     addImage
     // getImageInfo etc
-}
+  }
 }

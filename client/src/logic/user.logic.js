@@ -9,9 +9,8 @@ export const loginUser = async ({ name, password }) => {
   if (!user._id) {
     throw Error("Invalid username or password.");
   }
+  dispatch(setUserAction(user));
 
- // dispatch(setUserAction(user));
-  dispatch(setImagesAction(user.famely.images));
 }
 
 export const registerUser = async ({ name, password }) => {

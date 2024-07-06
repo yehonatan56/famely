@@ -6,8 +6,8 @@ export default function Image(props) {
       key={props.index}
       style={{
         position: "absolute",
-        top: props.img?.metadata?.top,
-        left: props.img?.metadata?.left,
+        top: props.img?.top,
+        left: props.img?.left,
         cursor: props.draggingIndex === props.index ? "grabbing" : "grab",
       }}
       onMouseDown={(event) => props.handleMouseDown(event, props.index)}
@@ -17,8 +17,8 @@ export default function Image(props) {
         src={props.img.url}
         alt={`Uploaded ${props.index}`}
         style={{
-          width: props.img?.metadata?.width,
-          height: props.img?.metadata?.height,
+          width: props.img?.width,
+          height: props.img?.height,
         }}
       />
       <div

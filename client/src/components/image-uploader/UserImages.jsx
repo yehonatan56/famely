@@ -5,28 +5,28 @@ import Image from "./image";
 import { getUserImagesByPage } from "../../logic/images.logic";
 import { useImageEvents } from "./hooks/useImageEvents";
 import { useImagesPagination } from "./hooks/useImagesPagination";
-import { getUserImagesSelector } from "../../store/selectors/user.selector";
+import { getUserDataSelector, getUserImagesSelector } from "../../store/selectors/user.selector";
 import { dispatch } from "../../store/store";
-import { setImagesAction } from "../../store/slices/images.slice";
-import { getImagesSelector } from "../../store/selectors/images.selector";
+import { updateImagesAction } from "../../store/slices/user.slice";
 
 export const UserImages = () => {
   
-  const userImages = useSelector((state) => getUserImagesSelector(state));
+  const user = useSelector((state) => getUserDataSelector(state));
 
 
-  const images = useSelector(getImagesSelector)
+  const images = useSelector((state) => getUserImagesSelector(state));
+  
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
   const { handleImageClick, handleMouseDown, handleResizeStart } =
     useImageEvents({
       images,
-      updateImages: (updatedImages) => dispatch(setImagesAction(updatedImages)),
+      updateImages: (updatedImages) => dispatch(updateImagesAction(updatedImages)),
     });
 
   useEffect(() => {
-    getUserImagesByPage(userImages, currentPage)
+    getUserImagesByPage(images, currentPage)
       .then((userImages) => {
-        dispatch(setImagesAction(userImages))
+          dispatch(updateImagesAction(userImages))
       })
       .catch((error) => console.error("failed to getUserImagesByPage", error));
   }, []);
@@ -37,7 +37,7 @@ export const UserImages = () => {
     <div className="user-images-container">
       <div className="user-images">
         {images
-          ?.filter((img) => img.metadata.page === currentPage)
+          ?.filter((img) => img.page === currentPage)
           .map((img, index) => (
             <Image
               key={index}
@@ -49,14 +49,14 @@ export const UserImages = () => {
             />
           ))}
       </div>
-      {/* {images.length ? (
+      {images.length ? (
         <ResponsivePagination
           current={currentPage}
           total={totalPages}
           onPageChange={onPageChange}
         />
       ) : null}
-      ; */}
+      ;
     </div>
   );
 };
