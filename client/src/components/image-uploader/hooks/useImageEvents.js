@@ -34,26 +34,32 @@ export const useImageEvents = ({ images, updateImages }) => {
    const handleMouseMove = useCallback(
     (event) => {
       if (draggingIndex !== null) {
-        const updatedImages = images?.slice(0) ?? [];
-
-        const [left, top] = [
+        let updatedImages = [...images];
+        const [newLeft, newTop] = [
           event.clientX - dragOffset.x,
           event.clientY - dragOffset.y,
         ];
 
-        updatedImages[draggingIndex].left = left;
-        updatedImages[draggingIndex].top = top;
+        updatedImages[draggingIndex] = {
+          ...updatedImages[draggingIndex],
+          left: newLeft,
+          top: newTop,
+        };
 
         updateImages?.(updatedImages);
       }
 
       if (resizingIndex !== null) {
         const updatedImages = [...images];
-        const width = event.clientX - sizeOffset.width
+        const width = event.clientX - sizeOffset.width;
         const height = event.clientY - sizeOffset.height;
         // todo : change to [width, height] variables
-        updatedImages[resizingIndex].width = width;
-        updatedImages[resizingIndex].height = height;
+        updatedImages[resizingIndex] = {
+          ...updatedImages[resizingIndex],
+          width: width,
+          height: height,
+        };
+        updateImages?.(updatedImages);
 
         // todo: add question dot checking before using
         updateImages?.(updatedImages);
