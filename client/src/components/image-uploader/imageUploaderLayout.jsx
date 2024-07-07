@@ -4,6 +4,7 @@ import { UserImages } from "./UserImages";
 import "react-responsive-pagination/themes/classic.css";
 import "./ImageUploader.css";
 import CheckUser from "../auth/AuthenticatedPage";import Navbar from "../navbar/navbar";
+import SaveBtn from "../generalComponents/saveBtn";
 
 const ImageUploaderLayout = () => {
   const [popup, setPopup] = useState(false);
@@ -20,6 +21,7 @@ const ImageUploaderLayout = () => {
         <>
           <button onClick={() => setPopup(true)}>add image</button>
           <UserImages />
+          <SaveBtn/>
         </>
       )}
     </div>
