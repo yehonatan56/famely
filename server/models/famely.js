@@ -1,15 +1,12 @@
 const mongoose = require("mongoose");
 
-const famelySchema =  new mongoose.Schema({
-  _id:{type:mongoose.Schema.Types.ObjectId,default:new mongoose.mongo.ObjectId()},
-  name:{type:String},
-  famely:Object,
-  pass:String,
-  date_created:{
-    type:Date, default:Date.now
+const famelySchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true, unique: true },
+    pass: { type: String, required: true },
+    famely: Object,
   },
-  
-})
+  { timestamps: true }
+);
 
-
-exports.FamelyModel = mongoose.model("famelis",famelySchema);
+exports.FamelyModel = mongoose.model("famelis", famelySchema);

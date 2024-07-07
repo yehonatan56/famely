@@ -9,6 +9,8 @@ const ImageModalFormik = (formikProps) => {
   withFormikDevtools(formikProps);
   const {
     values,
+    errors,
+    touched,
     handleChange,
     handleBlur,
     setFieldValue,
@@ -37,7 +39,9 @@ const ImageModalFormik = (formikProps) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <ErrorMessage name="name" component="div" />
+        {touched.name && errors.name && (
+          <ErrorMessage name="name" component="div" />
+        )}
       </div>
       <div>
         <label htmlFor="description">Description</label>
@@ -48,7 +52,9 @@ const ImageModalFormik = (formikProps) => {
           onChange={handleChange}
           onBlur={handleBlur}
         />
-        <ErrorMessage name="description" component="div" />
+        {touched.description && errors.description && (
+          <ErrorMessage name="description" component="div" />
+        )}
       </div>
       <input
         type="file"
@@ -57,6 +63,9 @@ const ImageModalFormik = (formikProps) => {
         ref={fileInputRef}
         onChange={handleFileUpload}
       />
+      {touched.file && errors.file && (
+        <ErrorMessage name="file" component="div" />
+      )}
 
       <div>
         {filePreviewSrc && (
@@ -89,9 +98,7 @@ export default withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
     props
       .onSubmit(values)
-      .then(() => {
-      
-     })
+      .then(() => {})
       .catch((error) => {
         alert(error.message);
       })
@@ -100,6 +107,6 @@ export default withFormik({
       });
 
     // if (data) {
-        // }
+    // }
   },
 })(ImageModalFormik);
