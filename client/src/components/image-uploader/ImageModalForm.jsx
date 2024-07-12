@@ -74,14 +74,14 @@ const ImageModalFormik = (formikProps) => {
             alt="image-preview"
             style={{ maxHeight: "350px" }}
           />
-        )}
+        )}  
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
         onClick={() => handleSubmit()}
-      >
+     >
         Submit
       </button>
     </div>

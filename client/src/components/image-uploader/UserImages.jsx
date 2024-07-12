@@ -5,13 +5,12 @@ import Image from "./image";
 import { getUserImagesByPage } from "../../logic/images.logic";
 import { useImageEvents } from "./hooks/useImageEvents";
 import { useImagesPagination } from "./hooks/useImagesPagination";
-import { getUserDataSelector, getUserImagesSelector } from "../../store/selectors/user.selector";
+import { getUserImagesSelector } from "../../store/selectors/user.selector";
 import { dispatch } from "../../store/store";
 import { updateImagesAction } from "../../store/slices/user.slice";
 
 export const UserImages = () => {
   
-  const user = useSelector((state) => getUserDataSelector(state));
 
 
   const images = useSelector((state) => getUserImagesSelector(state));

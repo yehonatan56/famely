@@ -10,6 +10,9 @@ export const userSlice = createSlice({
     updateImages(state, action) {
       state.user.famely.images = action.payload;
     },
+    updateMembers(state, action) {
+      state.user.famely.members = action.payload;
+    },
     removeUser(state, action) {
       state.user = null;
     },
@@ -17,6 +20,6 @@ export const userSlice = createSlice({
 });
 
 // Export the actions and the reducer
-export const { setUser: setUserAction, removeUser: removeUserAction , updateImages: updateImagesAction } =
+export const { setUser: setUserAction, removeUser: removeUserAction, updateImages: updateImagesAction, updateMembers: updateMembersAction } =
   userSlice.actions;
 export default userSlice.reducer;

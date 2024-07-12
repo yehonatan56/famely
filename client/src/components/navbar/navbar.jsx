@@ -26,6 +26,11 @@ const Navbar = () => {
           <Link to="/image-uploader">Image Uploader</Link>
         </li>
 
+        <li>
+          <Link to="/family-members">Family Members</Link>
+        </li>
+        
+
         {isAuthenticated && (
           <li>
             <button onClick={logoutUser}>Logout</button>
