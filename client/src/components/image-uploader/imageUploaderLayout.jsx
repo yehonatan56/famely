@@ -3,7 +3,7 @@ import { UploadImageInput } from "./UploadImageInput";
 import { UserImages } from "./UserImages";
 import "react-responsive-pagination/themes/classic.css";
 import "./ImageUploader.css";
-import CheckUser from "../auth/AuthenticatedPage";import Navbar from "../navbar/navbar";
+import Navbar from "../navbar/navbar";
 import SaveBtn from "../generalComponents/saveBtn";
 
 const ImageUploaderLayout = () => {
