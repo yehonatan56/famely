@@ -3,22 +3,21 @@ import { withFormikDevtools } from "formik-devtools-extension";
 import { withFormik, Field, ErrorMessage } from "formik";
 import { FormSchema } from "./schema";
 import { useFilePreview } from "../hooks";
-import { uploadImageFile } from "../../logic/images.logic";
-
+import { useSelector } from "react-redux";
+import { getUserMembersSelector } from "../../store/selectors/user.selector";
 const ImageModalFormik = (formikProps) => {
   withFormikDevtools(formikProps);
   const {
     values,
     errors,
     touched,
-    handleChange,
-    handleBlur,
     setFieldValue,
     setFieldTouched,
     isSubmitting,
     handleSubmit,
   } = formikProps;
-
+  const members = useSelector(getUserMembersSelector);
+  const membersOptions = members.map((member) => ({ value: member.name, label: member.name }));
   const fileInputRef = React.createRef();
   const filePreviewSrc = useFilePreview(values.file);
 
@@ -31,30 +30,16 @@ const ImageModalFormik = (formikProps) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1em" }}>
       <div>
-        <label htmlFor="name">Name</label>
-        <Field
-          type="text"
-          name="name"
-          value={values.name}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {touched.name && errors.name && (
-          <ErrorMessage name="name" component="div" />
-        )}
-      </div>
-      <div>
-        <label htmlFor="description">Description</label>
-        <Field
-          type="text"
-          name="description"
-          value={values.description}
-          onChange={handleChange}
-          onBlur={handleBlur}
-        />
-        {touched.description && errors.description && (
-          <ErrorMessage name="description" component="div" />
-        )}
+        {membersOptions.map((option) => (
+          <label key={option.value}>
+            <Field
+              type="checkbox"
+              name="members"
+              value={option.value}
+            />
+            {option.label}
+          </label>
+        ))}
       </div>
       <input
         type="file"
@@ -74,14 +59,14 @@ const ImageModalFormik = (formikProps) => {
             alt="image-preview"
             style={{ maxHeight: "350px" }}
           />
-        )}  
+        )}
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
         onClick={() => handleSubmit()}
-     >
+      >
         Submit
       </button>
     </div>
@@ -98,7 +83,7 @@ export default withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
     props
       .onSubmit(values)
-      .then(() => {})
+      .then(() => { })
       .catch((error) => {
         alert(error.message);
       })

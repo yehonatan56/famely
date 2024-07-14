@@ -3,12 +3,10 @@ import { useSelector } from "react-redux";
 import ResponsivePagination from "react-responsive-pagination";
 import Image from "./image";
 import { getUserImagesByPage } from "../../logic/images.logic";
-import { useImageEvents } from "./hooks/useImageEvents";
 import { useImagesPagination } from "./hooks/useImagesPagination";
 import { getUserImagesSelector } from "../../store/selectors/user.selector";
 import { dispatch } from "../../store/store";
 import { updateImagesAction } from "../../store/slices/user.slice";
-
 export const UserImages = () => {
   
 
@@ -16,11 +14,7 @@ export const UserImages = () => {
   const images = useSelector((state) => getUserImagesSelector(state));
   
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
-  const { handleImageClick, handleMouseDown, handleResizeStart } =
-    useImageEvents({
-      images,
-      updateImages: (updatedImages) => dispatch(updateImagesAction(updatedImages)),
-    });
+
 
   useEffect(() => {
     getUserImagesByPage(images, currentPage)
@@ -42,10 +36,7 @@ export const UserImages = () => {
               key={index}
               img={img}
               index={index}
-              handleMouseDown={handleMouseDown}
-              handleImageClick={handleImageClick}
-              handleResizeStart={handleResizeStart}
-            />
+              />
           ))}
       </div>
       {images.length ? (

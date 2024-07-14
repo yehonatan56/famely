@@ -7,7 +7,7 @@ import Chat from "../components/chat/chat";
 import ImageUploaderLayout from "../components/image-uploader/imageUploaderLayout";
 import ErrorConnect from "./errorConnect";
 import AuthenticatedPage from "../components/auth/AuthenticatedPage";
-import FamilyMembers from "../components/framilyMerbers";
+import FamilyMembers from "../components/familyMembers";
 
 export const RoutePages = () => {
   const router = createBrowserRouter([

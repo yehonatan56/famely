@@ -1,11 +1,7 @@
 import * as Yup from "yup";
 
 export const FormSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Required"),
-  description: Yup.string().min(5, "Too Short!").max(200, "Too Long!"),
+  
   file: Yup.mixed()
     .test("fileFormat", "Only PDF files are allowed", (value) => {
       const fileType = value?.name.split(".").pop();

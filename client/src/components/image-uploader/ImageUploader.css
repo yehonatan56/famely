@@ -14,13 +14,18 @@
 }
 
 .user-images{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(10 , 1fr);
     gap: 1em;
     align-items: center;
     justify-content: space-around;
 }
-
+.user-images img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
 
 /* General styling for popup */
 .popup {
