@@ -4,7 +4,7 @@ import { loginUserRequest, registerUserRequest } from "../requests/auth.proxy";
 import { setImagesAction } from "../store/slices/images.slice";
 
 export const loginUser = async ({ name, password }) => {
-  const user = await loginUserRequest({ name, password });
+  const user = await loginUserRequest({ name, password, memnber: [] });
 
   if (!user._id) {
     throw Error("Invalid username or password.");
