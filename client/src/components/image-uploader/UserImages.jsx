@@ -7,12 +7,9 @@ import { useImagesPagination } from "./hooks/useImagesPagination";
 import { getUserImagesSelector } from "../../store/selectors/user.selector";
 import { dispatch } from "../../store/store";
 import { updateImagesAction } from "../../store/slices/user.slice";
+
 export const UserImages = () => {
-  
-
-
   const images = useSelector((state) => getUserImagesSelector(state));
-  
   const { currentPage, totalPages, onPageChange } = useImagesPagination();
 
 
