@@ -51,7 +51,7 @@ const FamilyTree = ({ data }) => {
         dataManager: items,
       },
       getNodeDefaults: (obj, diagram) => {
-        obj.height = 30;
+        obj.height = 30;0
         obj.width = 70;
         obj.shape = { type: "Basic", shape: "Rectangle" };
         obj.annotations = [

@@ -14,6 +14,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Navbar />
+      {/* <Welcome /> */}
       {isAuthenticated ? <Welcome /> : <Link to={"/login"}>Login</Link>}
     </div>
   );
