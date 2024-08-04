@@ -7,17 +7,17 @@ export default function Welcome() {
   const user = useSelector((state) => getUserDataSelector(state));
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        height: "100%",
-        alignItems: "center",
-        marginTop: "1em",
-      }}
-    >
-      <div>Welcome {user.name} famely</div>
+    <div>
+      <div
+        style={{
+          fontSize: "100px",
+          fontWeight: "bold",
+          textAlign: "center",
+          marginTop: "20px",
+        }}
+      >
+        Welcome {user.name} famely
+      </div>
       {/* <FamilyTree /> */}
     </div>
   );

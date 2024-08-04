@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { UploadImageInput } from "./UploadImageInput";
 import { UserImages } from "./UserImages";
 import "react-responsive-pagination/themes/classic.css";
-import "./ImageUploader.css";
+import "./css/ImageUploader.css";
 import Navbar from "../navbar/navbar";
 import SaveBtn from "../generalComponents/saveBtn";
-
+import { FaCirclePlus } from "react-icons/fa6";
 const ImageUploaderLayout = () => {
   const [popup, setPopup] = useState(false);
 
@@ -13,15 +13,23 @@ const ImageUploaderLayout = () => {
     <div className="image-uploader-container">
       <Navbar />
 
-      <h2>Image Uploader Page</h2>
-
       {popup ? (
         <UploadImageInput closeForm={() => setPopup(false)} />
       ) : (
         <>
-          <button onClick={() => setPopup(true)}>add image</button>
+          <FaCirclePlus
+            style={{
+              fontSize: "50px",
+              color: "blue",
+              cursor: "pointer",
+              position: "absolute",
+              right: "20px",
+              bottom: "20px",
+            }}
+            onClick={() => setPopup(true)}
+          />
           <UserImages />
-          <SaveBtn/>
+          <SaveBtn />
         </>
       )}
     </div>
