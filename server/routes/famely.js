@@ -1,4 +1,4 @@
-const express = require("express");
+               const express = require("express");
 const bcrypt = require("bcrypt");
 const { FamelyModel } = require("../models/famely"); // Update the import path to the correct location
 const { checkName } = require("../db/checkName");
