@@ -6,7 +6,7 @@ import { setImagesAction } from "../store/slices/images.slice";
 export const loginUser = async ({ name, password }) => {
   const user = await loginUserRequest({ name, password, memnber: [] });
 
-  if (!user._id) {
+  if (!user) {
     throw Error("Invalid username or password.");
   }
   dispatch(setUserAction(user));

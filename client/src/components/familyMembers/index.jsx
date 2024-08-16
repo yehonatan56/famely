@@ -11,14 +11,14 @@ import { addFamilyMember } from "../../logic/members.logic";
 export default function FamilyMembers() {
   // ask hadriel if create neww component for family members state
   const [addForm, setAddForm] = useState(false);
-  const members = useSelector(getUserMembersSelector);
+  const members = useSelector(getUserMembersSelector) ||[];
 
   return (
     <div>
       <Navbar />
       <h1 id="headLine">Family Members</h1>
       {addForm ? (
-        <AddForm addFamilyMember={() => addFamilyMember(members)} />
+        <AddForm addFamilyMember={addFamilyMember} members={members}/>
       ) : (
         <>
           <List />

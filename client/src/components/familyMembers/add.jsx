@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {memo} from 'react';
 import { withFormik, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { withFormikDevtools } from 'formik-devtools-extension';
 import { useFilePreview } from '../hooks';
+import {addFamilyMember} from "../../logic/members.logic";
 
 
 const AddForm = (formikProps) => {
@@ -94,8 +95,9 @@ export default withFormik({
         birthdate: Yup.date().required('Birthdate is required'),
         profileImage: Yup.mixed().required('Profile image is required'),
     }),
-    handleSubmit: (values, {setSubmitting,props}) => {
-        props.addFamilyMember(values);
+    handleSubmit: (values, {setSubmitting , props }) => {
+        const {addFamilyMember,members} = props;
+        addFamilyMember(values, members);
 
         setSubmitting(false);
     },

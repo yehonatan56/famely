@@ -16,12 +16,14 @@ const configExpress = (app) => {
   app.use(cors());
   app.use(session({
   secret: process.env.SECEAT,
+    resave: true,
+saveUninitialized: false
   }))
   app.use(passport.initialize());
   app.use(passport.session());
   linkDB();
   routesInit(app)
-  app.listen(3002, () => console.log("server  run "));
+  app.listen(3009, () => console.log("server  run "));
 };
 
 module.exports = configExpress;

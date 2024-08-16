@@ -9,6 +9,8 @@ passport.use(new LocalStrategy({
     passwordField: 'pass'
 } , async function verify(name, password, cb) {
     const user = await FamelyModel.findOne({name});
+
+    if (!user) return cb(null,false)
     await bcrypt.compare(password , user.pass , (err, result) => {
         return result ? cb(null,user) : cb(null,false)
     })
