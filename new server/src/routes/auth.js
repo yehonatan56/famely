@@ -1,15 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const isAuth = require("../middlewares/auth")
 const passport = require("passport");
-router.post("/" ,isAuth);
-// router.post("/login" ,(req,res) => res.send('kkk'));
-    router.post("/login" ,passport.authenticate('local', {
-        successRedirect:"/auth/ok",
-        failureRedirect:"/auth/err"
-    }));
+const authUser = require("../services/auth.service");
+// .router.post("/login",(req,res) => res.send('kkk'));
+let user = "";
+router.post(
+  "/login",
+  (req, res, next) => {
+    user = req.body.name;
+    next();
+  },
+  passport.authenticate("local", {
+    successRedirect: "/auth/ok/",
+    failureRedirect: "/auth/err",
+  }),
+);
 
-router.get("/ok",(req,res) => res.status(200).send('kkk'))
+router.get("/ok", async (req, res) => {
+  res.json(await authUser(user));
+});
+router.get("/err", (req, res) => res.status(400).send("kkjklk"));
 
 module.exports = router;
-router.get("/err",(req,res) => res.status(400) .send('kkjklk'))
