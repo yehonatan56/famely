@@ -1,7 +1,7 @@
 import React from "react";
-import ImageModalForm from "./ImageModalForm";
-import { useImagesManagement } from "./hooks/useImagesManagement";
-import { uploadImageFile } from "../../logic/images.logic";
+import ImageModalForm from "../modal/ImageModalForm.jsx";
+import { useImagesManagement } from "../hooks/useImagesManagement.js";
+import { uploadImageFile } from "../../../logic/images.logic.jsx";
 
 export const UploadImageInput = ({ closeForm }) => {
   const { addImage } = useImagesManagement();

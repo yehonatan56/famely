@@ -4,7 +4,7 @@ import { LoginPage } from "./LoginPage";
 import { RegisterPage } from "./RegisterPage";
 import Home from "../components/home/home";
 import Chat from "../components/chat/chat";
-import ImageUploaderLayout from "../components/image-uploader/imageUploaderLayout";
+import ImageUploaderLayout from "../components/image-uploader/layout/imageUploaderLayout.jsx";
 import ErrorConnect from "./errorConnect";
 import AuthenticatedPage from "../components/auth/AuthenticatedPage";
 import FamilyMembers from "../components/familyMembers";
@@ -46,8 +46,8 @@ export const RoutePages = () => {
     {
       path: "/family-members",
       element: (
-        <AuthenticatedPage> 
-           <FamilyMembers />
+        <AuthenticatedPage>
+          <FamilyMembers />
         </AuthenticatedPage>
       ),
     },

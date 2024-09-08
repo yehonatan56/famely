@@ -4,13 +4,12 @@ export const loginUserRequest = async ({ name, password: pass }) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, pass }),
   })
-    .then((response) => response.status)
-    .
-    catch((error) => {
+    .then((response) => (response.status === 400 ? null : response.json()))
+    .catch((error) => {
       console.error("failed to login user with error", error);
       return null;
     });
-    return user !== 400;
+  return user;
 };
 
 export const registerUserRequest = async ({ name, password: pass }) => {

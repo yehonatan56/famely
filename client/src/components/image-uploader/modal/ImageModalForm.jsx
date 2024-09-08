@@ -1,10 +1,10 @@
 import React from "react";
 import { withFormikDevtools } from "formik-devtools-extension";
 import { withFormik, Field, ErrorMessage } from "formik";
-import { FormSchema } from "./schema";
-import { useFilePreview } from "../hooks";
+import { FormSchema } from "./schema.js";
+import { useFilePreview } from "../../hooks/index.js";
 import { useSelector } from "react-redux";
-import { getUserMembersSelector } from "../../store/selectors/user.selector";
+import { getUserMembersSelector } from "../../../store/selectors/user.selector.js";
 const ImageModalFormik = (formikProps) => {
   withFormikDevtools(formikProps);
   const {
@@ -17,7 +17,10 @@ const ImageModalFormik = (formikProps) => {
     handleSubmit,
   } = formikProps;
   const members = useSelector(getUserMembersSelector);
-  const membersOptions = members.map((member) => ({ value: member.name, label: member.name }));
+  const membersOptions = members.map((member) => ({
+    value: member.name,
+    label: member.name,
+  }));
   const fileInputRef = React.createRef();
   const filePreviewSrc = useFilePreview(values.file);
 
@@ -32,11 +35,7 @@ const ImageModalFormik = (formikProps) => {
       <div>
         {membersOptions.map((option) => (
           <label key={option.value}>
-            <Field
-              type="checkbox"
-              name="members"
-              value={option.value}
-            />
+            <Field type="checkbox" name="members" value={option.value} />
             {option.label}
           </label>
         ))}
@@ -83,7 +82,7 @@ export default withFormik({
   handleSubmit: async (values, { setSubmitting, props }) => {
     props
       .onSubmit(values)
-      .then(() => { })
+      .then(() => {})
       .catch((error) => {
         alert(error.message);
       })

@@ -20,6 +20,10 @@ export const userSlice = createSlice({
 });
 
 // Export the actions and the reducer
-export const { setUser: setUserAction, removeUser: removeUserAction, updateImages: updateImagesAction, updateMembers: updateMembersAction } =
-  userSlice.actions;
+export const {
+  setUser: setUserAction,
+  removeUser: removeUserAction,
+  updateImages: updateImagesAction,
+  updateMembers: updateMembersAction,
+} = userSlice.actions;
 export default userSlice.reducer;

@@ -19,6 +19,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@syncfusion/ej2-data": "^26.1.35",
     "@syncfusion/ej2-diagrams": "^26.1.35",
+    "@tabler/icons-react": "^3.14.0",
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "formik-devtools-extension": "^0.1.8",
