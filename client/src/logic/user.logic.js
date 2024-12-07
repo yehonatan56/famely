@@ -1,16 +1,16 @@
 import { setUserAction, removeUserAction } from "../store/slices/user.slice";
 import { dispatch } from "../store/store";
 import { loginUserRequest, registerUserRequest } from "../requests/auth.proxy";
+import { addMembersFiled } from "../dev.js";
 
 export const loginUser = async ({ name, password }) => {
   const user = await loginUserRequest({ name, password });
 
-  if (!user._id) {
+  if (!user) {
     throw Error("Invalid username or password.");
   }
-
-  dispatch(setUserAction(user));
-}
+  dispatch(setUserAction(JSON.parse(user)));
+};
 
 export const registerUser = async ({ name, password }) => {
   const user = await registerUserRequest({ name, password });
@@ -21,7 +21,6 @@ export const registerUser = async ({ name, password }) => {
 
   dispatch(setUserAction(user));
 };
-
 
 export const logoutUser = async () => {
   dispatch(removeUserAction());

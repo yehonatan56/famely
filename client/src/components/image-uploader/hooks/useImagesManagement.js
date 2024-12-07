@@ -1,32 +1,46 @@
-import React, { useCallback, useState } from 'react'
-import { useImagesPagination } from './useImagesPagination';
+import { useCallback } from "react";
+import { useImagesPagination } from "./useImagesPagination";
+import { useSelector } from "react-redux";
+import { dispatch } from "../../../store/store";
+import { updateImagesAction } from "../../../store/slices/user.slice";
+import { getUserImagesSelector } from "../../../store/selectors/user.selector";
 
 export function useImagesManagement() {
-  const [images, setImages] = useState([]);
-  const {currentPage} = useImagesPagination();
+  const { currentPage } = useImagesPagination();
+  const images = useSelector((state) => getUserImagesSelector(state));
+
   const setImagesState = useCallback((newState) => {
-    setImages(newState)
-  }, [])
+    dispatch(updateImagesAction(newState));
+  }, []);
 
-
-  const addImage = item => {
-    setImages([...images, {
-      url: item.url,
-      metadata: {
-        page: currentPage,
-        top: item.top,
-        left: item.left,
-        width: item.width,
-        height: item.height,
-        name: item.name,
-        description: item.description,
-      },
-    }])
-  }
+  const addImage = (item) => {
+    dispatch(
+      updateImagesAction([
+        ...images,
+        {
+          url: item.url,
+          page: currentPage,
+          top: item.top,
+          left: item.left,
+          width: item.width,
+          height: item.height,
+          name: item.name,
+          description: item.description,
+        },
+      ]),
+      ,
+    );
+  };
+  const deleteImage = (index) => {
+    const newImages = [...images];
+    newImages.splice(index, 1);
+    setImagesState(newImages);
+  };
   return {
     images,
     setImagesState,
-    addImage
+    addImage,
+    deleteImage,
     // getImageInfo etc
-}
+  };
 }

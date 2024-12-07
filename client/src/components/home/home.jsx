@@ -10,11 +10,23 @@ const Home = () => {
   const isAuthenticated = useSelector((state) =>
     isAuthenticatedUserSelector(state)
   );
-
   return (
     <div className="home-container">
       <Navbar />
-      {isAuthenticated ? <Welcome /> : <Link to={"/login"}>Login</Link>}
+      {/* <Welcome /> */}
+      {isAuthenticated ? (
+        <Welcome />
+      ) : (
+        <>
+          <Link className="link" to={"/login"}>
+            Login
+          </Link>
+          <h1>Or</h1>
+          <Link className="link" to={"/register"}>
+            Register
+          </Link>
+        </>
+      )}
     </div>
   );
 };

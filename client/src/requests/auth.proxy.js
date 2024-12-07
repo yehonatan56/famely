@@ -1,10 +1,10 @@
 export const loginUserRequest = async ({ name, password: pass }) => {
-  const user = await fetch("http://localhost:3009/famelys/checkValidity", {
+  const user = await fetch("http://localhost:3009/auth/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ name, pass }),
   })
-    .then((response) => response.json())
+    .then((response) => (response.status === 400 ? null : response.json()))
     .catch((error) => {
       console.error("failed to login user with error", error);
       return null;
