@@ -23,6 +23,7 @@
     "dayjs": "^1.11.11",
     "formik": "^2.4.6",
     "formik-devtools-extension": "^0.1.8",
+    "mailgen": "^2.0.28",
     "react": "^18.2.0",
     "react-calendar": "^5.0.0",
     "react-dom": "^18.2.0",

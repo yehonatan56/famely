@@ -28,7 +28,6 @@ export function useImagesManagement() {
           description: item.description,
         },
       ]),
-      ,
     );
   };
   const deleteImage = (index) => {
